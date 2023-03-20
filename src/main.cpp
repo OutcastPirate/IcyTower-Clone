@@ -6,16 +6,6 @@
 
 int function(int a, int b)
 {
-    /**
-     * This function does nothing. Test for doxygen.
-     * @param a Does nothing. But you can put anything here.
-     * @param b Also does nothing.
-     * Markdown is supported:
-     * | Right | Center | Left  |
-     * | ----: | :----: | :---- |
-     * | 10    | 10     | 10    |
-     * | ^     | 1000   | 1000  |
-     */
     int something = a + b / (a-b);
     return something;
 }
