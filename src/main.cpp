@@ -7,28 +7,28 @@
 
 int main()
 {
-    const int gameWidth = 800;
-    const int gameHeight = 600;
+    const int gameWidth = 1000;
+    const int gameHeight = 900;
 
     sf::RenderWindow window(sf::VideoMode(gameWidth, gameHeight, 32), "Icy Tower",
                             sf::Style::Titlebar | sf::Style::Close);
-    window.setVerticalSyncEnabled(true);
+    window.setVerticalSyncEnabled(false);
 
-    Player player(800, 300, 200);
+    Player player(300, 200, gameWidth, gameHeight);
     player.setPosition(100, 100);
     float _deltaTime = 0.0f;
 
+
+    sf::RectangleShape shape(sf::Vector2f(130, 40));
+    shape.setPosition(900, 750);
+    shape.setFillColor(sf::Color(120, 30, 200));
     sf::Clock clock;
-    bool isPlaying = false;
     while (window.isOpen())
     {
         window.clear(sf::Color(0, 0, 0));
-        player.update(clock.restart().asSeconds());
+        player.update(clock.restart().asSeconds(), shape);
+        window.draw(shape);
         player.draw(window);
-        // Clear the window
-
-
-
         // Display things on screen
         window.display();
     }
