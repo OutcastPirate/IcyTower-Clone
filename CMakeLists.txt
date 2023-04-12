@@ -9,5 +9,5 @@ project(IcyTower)
 # set(SFML_DIR "<sfml root prefix>/lib/cmake/SFML")
 
 find_package(SFML 2.5 COMPONENTS graphics audio REQUIRED)
-add_executable(IcyTower src/main.cpp src/Player.cpp src/Player.h)
+add_executable(IcyTower src/main.cpp src/Player.cpp src/Player.h src/Tile.h src/Tile.cpp)
 target_link_libraries(IcyTower sfml-graphics sfml-audio)

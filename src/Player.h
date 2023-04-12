@@ -6,7 +6,8 @@
 #define ICYTOWER_PLAYER_H
 
 #include <SFML/Graphics.hpp>
-
+#include <vector>
+#include "Tile.h"
 const float GRAVITY = 0.5f;
 const int CHARACTER_WIDTH = 20;
 const int CHARACTER_HEIGHT = 40;
@@ -14,9 +15,10 @@ const int CHARACTER_HEIGHT = 40;
 class Player{
  public:
     Player(float speed, float jumpHeight, const int &gameWidth, const int &gameHeight);
-    void update(float deltaTime, sf::RectangleShape shape);
+    void update(float deltaTime);
     void setPosition(int x, int y);
     void draw(sf::RenderWindow &window);
+    void intersectTileVector(std::vector<Tile>& tileVector);
     sf::Vector2f getPosition() const;
  private:
     sf::RectangleShape _body;
@@ -29,9 +31,9 @@ class Player{
     float _speedMultiply;
     float maxJumpHeight = 200.0f;
     bool _facingRight;
-    bool _isJumping;
+    bool _isJumping{};
     bool _canJump;
-    bool _collision;
+    bool _collision{};
 };
 
 
