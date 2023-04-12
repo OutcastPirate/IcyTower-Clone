@@ -29,7 +29,7 @@ int main()
     Player player(300, 200, gameWidth, gameHeight);
     player.setPosition(100, 100);
     float _deltaTime = 0.0f;
-
+    sf::Event event{};
 
 
     sf::Clock clock;
@@ -45,6 +45,15 @@ int main()
         player.draw(window);
         // Display things on screen
         window.display();
+
+        // Process events
+        while (window.pollEvent(event))
+        {
+            // Close window : exit
+            if (event.type == sf::Event::Closed)
+                window.close();
+        }
+
     }
 
     return EXIT_SUCCESS;
