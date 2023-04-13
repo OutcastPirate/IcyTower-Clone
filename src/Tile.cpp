@@ -10,6 +10,6 @@ Tile::Tile(float width, float height, float x, float y, sf::Texture *texture) {
     shape.setTexture(texture);
 }
 
-void Tile::draw(sf::RenderWindow& window) const {
+void Tile::draw(sf::RenderWindow &window) const {
     window.draw(shape);
 }
