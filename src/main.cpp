@@ -16,9 +16,12 @@ int main() {
         std::cout << "Unable to load texture" << std::endl;
     }
 
+    sf::View camera(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(gameWidth, gameHeight));
+
     sf::RenderWindow window(sf::VideoMode(gameWidth, gameHeight, 32), "Icy Tower",
                             sf::Style::Titlebar | sf::Style::Close);
     window.setVerticalSyncEnabled(false);
+
 
     std::vector<Tile> tileVector;
     tileVector.emplace_back(1000, 30, 0, 870, &texture);
@@ -32,8 +35,15 @@ int main() {
     sf::Clock clock;
     while (window.isOpen()) {
         window.clear(sf::Color(0, 0, 0));
-        player.update(clock.restart().asSeconds());
+
+
         player.intersectTileVector(tileVector);
+        player.update(clock.restart().asSeconds());
+
+        camera.setCenter(sf::Vector2f(gameWidth/2, player.getPosition().y));
+        // Set camera view;
+        window.setView(camera);
+
         for (const auto &tile: tileVector) {
             tile.draw(window);
         }

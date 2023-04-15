@@ -15,6 +15,7 @@ Player::Player(float speed, float jumpHeight, const int &gameWidth, const int &g
     _speedMultiply = 1.5;
     _tmpSpeed = _speed * _speedMultiply;
     _body.setSize(sf::Vector2f(CHARACTER_WIDTH, CHARACTER_HEIGHT));
+    _body.setOrigin(_body.getSize() / 2.0f);
 }
 
 void Player::setPosition(int x, int y) { _body.setPosition(x, y); }
