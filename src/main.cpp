@@ -2,17 +2,22 @@
 #include <SFML/Audio.hpp>
 #include <cmath>
 #include <ctime>
+#include <random>
 #include <iostream>
 #include <cstdlib>
 #include <vector>
+#include <time.h>
 #include "Player.h"
 #include "Tile.h"
+#include "Wall.h"
 
 int main() {
+    srand(time(NULL));
+    int tileHeight = 0;
     const int gameWidth = 1000;
     const int gameHeight = 900;
     sf::Texture texture;
-    if (!texture.loadFromFile("resources/image.png")) {
+    if (!texture.loadFromFile("C:/Programowanie/IcyTower/proi_projekt/resources/image.png")) {
         std::cout << "Unable to load texture" << std::endl;
     }
 
@@ -24,11 +29,19 @@ int main() {
 
 
     std::vector<Tile> tileVector;
-    tileVector.emplace_back(1000, 30, 0, 870, &texture);
-    tileVector.emplace_back(200, 30, 250, 750, &texture);
-    tileVector.emplace_back(200, 30, 550, 650, &texture);
-    Player player(300, 200, gameWidth, gameHeight);
-    player.setPosition(100, 100);
+    tileVector.emplace_back(1000, 30, 0, 850, &texture);
+    for (int i = 0; i < 100; i++) {
+        int xPosition = std::rand() % 800;
+        int width = 200;
+        if ((i + 1) % 50 == 0 && i != 100) {
+            width = 1000;
+            xPosition = 0;
+        }
+        tileVector.emplace_back(width, 30, xPosition, (750 - tileHeight), &texture);
+        tileHeight += 100;
+    }
+    Player player(400, 450, gameWidth, gameHeight);
+    player.setPosition(200, 0);
     sf::Event event{};
 
 
@@ -47,6 +60,15 @@ int main() {
         for (const auto &tile: tileVector) {
             tile.draw(window);
         }
+
+        sf::Texture wallText;
+        if (!wallText.loadFromFile("C:/Programowanie/IcyTower/proi_projekt/resources/image2.png")) {
+            std::cout << "Unable to load texture" << std::endl;
+        }
+        Tile leftWall = Tile(10, 870, 0, 0, &wallText);
+        leftWall.draw(window);
+        Tile rightWall = Tile(10, 1000, 9990, 0, &wallText);
+        rightWall.draw(window);
         player.draw(window);
         // Display things on screen
         window.display();

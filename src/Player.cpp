@@ -23,6 +23,8 @@ void Player::setPosition(int x, int y) { _body.setPosition(x, y); }
 sf::Vector2f Player::getPosition() const { return _body.getPosition(); }
 
 
+
+
 void Player::update(float deltaTime) {
     _canJump = _collision;
     sf::Vector2f pos = _body.getPosition();
@@ -44,7 +46,7 @@ void Player::update(float deltaTime) {
     }
 
     if (_isJumping || !_collision) {
-        _velocity.y += 981.0f * deltaTime;
+        _velocity.y += 2137.0f * deltaTime;
     }
     if (_collision && _velocity.y >= 0) {
         _canJump = true;

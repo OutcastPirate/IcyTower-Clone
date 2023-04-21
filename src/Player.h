@@ -53,7 +53,7 @@ private:
     float _tmpSpeed;
     float _jumpHeight;
     float _speedMultiply;
-    float maxJumpHeight = 200.0f;
+    float maxJumpHeight = 300.0f;
     bool _facingRight;
     bool _isJumping{};
     bool _canJump;
