@@ -44,6 +44,20 @@ int main() {
     player.setPosition(500, 800);
     sf::Event event{};
 
+    int maxCameraPlacement = 500;
+
+
+    sf::Font font;
+    if (!font.loadFromFile("C:/Programowanie/IcyTower/proi_projekt/resources/Roboto.ttf"))
+    {
+        std::cout << "Cannot load font" << std::endl;
+    }
+    sf::Text text;
+    text.setFont(font); // font is a sf::Font
+    text.setString("Hello world");
+    text.setCharacterSize(24); // in pixels, not points!
+    text.setFillColor(sf::Color::Red);
+
 
     sf::Clock clock;
     while (window.isOpen()) {
@@ -53,13 +67,18 @@ int main() {
         player.intersectTileVector(tileVector);
         player.update(clock.restart().asSeconds());
 
-        if (player.getPosition().y < 500) {
+        
+        if (player.getPosition().y > maxCameraPlacement) {
+            if (player.getPosition().y > (maxCameraPlacement + 500)) {
+                window.close();
+                std::cout << "Out of bounds" << std::endl;
+            }
+            camera.setCenter(sf::Vector2f(gameWidth / 2, maxCameraPlacement));
+        } else {
             camera.setCenter(sf::Vector2f(gameWidth / 2, player.getPosition().y));
+            maxCameraPlacement = player.getPosition().y;
         }
-        else {
-            camera.setCenter(sf::Vector2f(gameWidth / 2, 500));
-
-        }
+        
         // Set camera view;
         window.setView(camera);
 
@@ -74,13 +93,14 @@ int main() {
         }
         
       
-        Tile leftWall = Tile(50, 20000, 0, -19130, &wallText);
+        Tile leftWall = Tile(50, 100000, 0, -99130, &wallText);
         leftWall.draw(window);
-        Tile rightWall = Tile(50, 20000, 950, -19130, &wallText);
+        Tile rightWall = Tile(50, 100000, 950, -99130, &wallText);
         rightWall.draw(window);
         player.draw(window);
-        // Display things on screen
+        window.draw(text);
         window.display();
+
 
         // Process events
         while (window.pollEvent(event)) {
