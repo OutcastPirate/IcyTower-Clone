@@ -7,6 +7,7 @@
 Tile::Tile(float width, float height, float x, float y, sf::Texture *texture) {
     shape.setSize(sf::Vector2f(width, height));
     shape.setPosition(x, y);
+    texture->setRepeated(true);
     shape.setTexture(texture);
 }
 

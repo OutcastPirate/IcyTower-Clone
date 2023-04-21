@@ -12,6 +12,7 @@ Player::Player(float speed, float jumpHeight, const int &gameWidth, const int &g
     _jumpHeight = jumpHeight;
     _facingRight = true;
     _canJump = true;
+    _leftWall = false;
     _speedMultiply = 1.5;
     _tmpSpeed = _speed * _speedMultiply;
     _body.setSize(sf::Vector2f(CHARACTER_WIDTH, CHARACTER_HEIGHT));
@@ -29,9 +30,19 @@ void Player::update(float deltaTime) {
     _canJump = _collision;
     sf::Vector2f pos = _body.getPosition();
     if (sf::Keyboard::isKeyPressed((sf::Keyboard::Left))) {
-        _velocity.x = -_tmpSpeed;
+        if (_body.getGlobalBounds().left <= 50) {
+            _velocity.x = 0;
+        }
+        else {
+            _velocity.x = -_tmpSpeed;
+        }
     } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-        _velocity.x = _tmpSpeed;
+        if (_body.getGlobalBounds().left >= 930) {
+            _velocity.x = 0;
+        }
+        else {
+            _velocity.x = _tmpSpeed;
+        }
     } else {
         if (_velocity.x > 0)
             _velocity.x -= 1900.0f * deltaTime;
@@ -64,6 +75,10 @@ void Player::intersectTileVector(std::vector<Tile> &tileVector) {
             _collision = true;
             return;
         }
+    }
+    if (_body.getGlobalBounds().left == 50) {
+        _leftWall = true;
+        return;
     }
     _collision = false;
 }

@@ -57,6 +57,7 @@ private:
     bool _facingRight;
     bool _isJumping{};
     bool _canJump;
+    bool _leftWall;
     bool _collision{};
 };
 

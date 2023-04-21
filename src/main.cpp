@@ -29,10 +29,10 @@ int main() {
 
 
     std::vector<Tile> tileVector;
-    tileVector.emplace_back(1000, 30, 0, 850, &texture);
-    for (int i = 0; i < 100; i++) {
-        int xPosition = std::rand() % 800;
-        int width = 200;
+    tileVector.emplace_back(1000, 200, 0, 850, &texture);
+    for (int i = 0; i < 1000; i++) {
+        int xPosition = 50 + (std::rand() % (750- 50 + 1));
+        int width = 100 + (std::rand() % (400 - 100 + 1));
         if ((i + 1) % 50 == 0 && i != 100) {
             width = 1000;
             xPosition = 0;
@@ -41,7 +41,7 @@ int main() {
         tileHeight += 100;
     }
     Player player(400, 450, gameWidth, gameHeight);
-    player.setPosition(200, 0);
+    player.setPosition(500, 800);
     sf::Event event{};
 
 
@@ -53,7 +53,13 @@ int main() {
         player.intersectTileVector(tileVector);
         player.update(clock.restart().asSeconds());
 
-        camera.setCenter(sf::Vector2f(gameWidth/2, player.getPosition().y));
+        if (player.getPosition().y < 500) {
+            camera.setCenter(sf::Vector2f(gameWidth / 2, player.getPosition().y));
+        }
+        else {
+            camera.setCenter(sf::Vector2f(gameWidth / 2, 500));
+
+        }
         // Set camera view;
         window.setView(camera);
 
@@ -62,12 +68,15 @@ int main() {
         }
 
         sf::Texture wallText;
-        if (!wallText.loadFromFile("C:/Programowanie/IcyTower/proi_projekt/resources/image2.png")) {
+        wallText.setRepeated(true);
+        if (!wallText.loadFromFile("C:/Programowanie/IcyTower/proi_projekt/resources/stoneWall.png")) {
             std::cout << "Unable to load texture" << std::endl;
         }
-        Tile leftWall = Tile(10, 870, 0, 0, &wallText);
+        
+      
+        Tile leftWall = Tile(50, 20000, 0, -19130, &wallText);
         leftWall.draw(window);
-        Tile rightWall = Tile(10, 1000, 9990, 0, &wallText);
+        Tile rightWall = Tile(50, 20000, 950, -19130, &wallText);
         rightWall.draw(window);
         player.draw(window);
         // Display things on screen
