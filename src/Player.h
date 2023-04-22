@@ -44,7 +44,13 @@ public:
     sf::Vector2f getPosition() const;
 
 private:
+    static sf::Vector3f getManifold(const sf::FloatRect& overlap, const sf::Vector2f& collisionNormal) ;
+    void resolve(const sf::Vector3f& manifold);
+
     sf::RectangleShape _body;
+
+    sf::FloatRect _overlap;
+    sf::FloatRect _bounds;
 
     sf::Vector2f _velocity;
     const int &_gameWidth;

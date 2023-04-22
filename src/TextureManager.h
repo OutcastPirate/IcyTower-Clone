@@ -19,7 +19,7 @@ class TextureManager {
      */
 public:
     TextureManager() = default;
-    std::shared_ptr<sf::Texture> insertTexture(std::string name, const std::string& texturePath);
+    static std::shared_ptr<sf::Texture> insertTexture(std::string name, const std::string& texturePath);
     /**
      * insertTexture - allows for adding new textures to collection
      * @param name Name of the texture - later used to access texture
@@ -32,7 +32,7 @@ public:
 
     // nodiscard - following method is pure; so if the result is not used - call wouldn't be made.
     [[nodiscard]]
-    std::shared_ptr<sf::Texture> getTexture(std::string name) const;
+    static std::shared_ptr<sf::Texture> getTexture(std::string name) ;
     /**
      * Texture pointer getter.
      * @param name Name of the texture to access.

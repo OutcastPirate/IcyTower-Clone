@@ -69,9 +69,41 @@ void Player::update(float deltaTime) {
 
 void Player::draw(sf::RenderWindow &window) { window.draw(_body); }
 
+sf::Vector3f Player::getManifold(const sf::FloatRect& overlap, const sf::Vector2f& collisionNormal)
+{
+    //the collision normal is stored in x and y, with the penetration in z
+    sf::Vector3f manifold;
+
+    if (overlap.width < overlap.height)
+    {
+        manifold.x = (collisionNormal.x < 0) ? 1.f : -1.f;
+        manifold.z = overlap.width;
+    }
+    else
+    {
+        manifold.y = (collisionNormal.y < 0) ? 1.f : -1.f;
+        manifold.z = overlap.height;
+    }
+
+    return manifold;
+}
+
+void Player::resolve(const sf::Vector3f& manifold)
+{
+    // Move player body out of solid object (tile or wall).
+    sf::Vector2f normal(manifold.x, manifold.y);
+    _body.move(normal * manifold.z);
+}
+
+
 void Player::intersectTileVector(std::vector<Tile> &tileVector) {
+    _bounds = _body.getGlobalBounds();
+
     for (const auto &tile: tileVector) {
-        if (_body.getGlobalBounds().intersects(tile.shape.getGlobalBounds())) {
+        if (tile.shape.getGlobalBounds().intersects(_bounds, _overlap) && _velocity.y > 0.0f) {
+            auto collisionNormal = tile.shape.getPosition() - _body.getPosition();
+            auto manifold = getManifold(_overlap, collisionNormal);
+            resolve(manifold);
             _collision = true;
             return;
         }
@@ -82,3 +114,4 @@ void Player::intersectTileVector(std::vector<Tile> &tileVector) {
     }
     _collision = false;
 }
+

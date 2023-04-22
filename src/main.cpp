@@ -9,17 +9,24 @@
 #include <time.h>
 #include "Player.h"
 #include "Tile.h"
+#include "TextureManager.h"
 #include "Wall.h"
+
+// To change environments comment unnecessary lines, and uncomment yours :)
+const std::string tilePath("resources/image.png");
+const std::string wallPath("resources/stoneWall.png");
+//const std::string tilePath("C:/Programowanie/IcyTower/proi_projekt/resources/image.png");
+//const std::string wallPath("C:/Programowanie/IcyTower/proi_projekt/resources/stoneWall.png");
+
 
 int main() {
     srand(time(NULL));
     int tileHeight = 0;
     const int gameWidth = 1000;
     const int gameHeight = 900;
-    sf::Texture texture;
-    if (!texture.loadFromFile("C:/Programowanie/IcyTower/proi_projekt/resources/image.png")) {
-        std::cout << "Unable to load texture" << std::endl;
-    }
+    auto textureManager = TextureManager();
+    auto tileTexture = TextureManager::insertTexture("tile", tilePath);
+    auto wallTexture = TextureManager::insertTexture("wall", wallPath);
 
     sf::View camera(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(gameWidth, gameHeight));
 
@@ -29,7 +36,7 @@ int main() {
 
 
     std::vector<Tile> tileVector;
-    tileVector.emplace_back(1000, 200, 0, 850, &texture);
+    tileVector.emplace_back(1000, 200, 0, 850, tileTexture.get());
     for (int i = 0; i < 1000; i++) {
         int xPosition = 50 + (std::rand() % (750- 50 + 1));
         int width = 100 + (std::rand() % (400 - 100 + 1));
@@ -37,7 +44,7 @@ int main() {
             width = 1000;
             xPosition = 0;
         }
-        tileVector.emplace_back(width, 30, xPosition, (750 - tileHeight), &texture);
+        tileVector.emplace_back(width, 30, xPosition, (750 - tileHeight), tileTexture.get());
         tileHeight += 100;
     }
     Player player(400, 450, gameWidth, gameHeight);
@@ -48,7 +55,7 @@ int main() {
 
 
     sf::Font font;
-    if (!font.loadFromFile("C:/Programowanie/IcyTower/proi_projekt/resources/Roboto.ttf"))
+    if (!font.loadFromFile("resources/Roboto.ttf"))
     {
         std::cout << "Cannot load font" << std::endl;
     }
@@ -86,16 +93,10 @@ int main() {
             tile.draw(window);
         }
 
-        sf::Texture wallText;
-        wallText.setRepeated(true);
-        if (!wallText.loadFromFile("C:/Programowanie/IcyTower/proi_projekt/resources/stoneWall.png")) {
-            std::cout << "Unable to load texture" << std::endl;
-        }
-        
-      
-        Tile leftWall = Tile(50, 100000, 0, -99130, &wallText);
+
+        Tile leftWall = Tile(50, 100000, 0, -99130, wallTexture.get());
         leftWall.draw(window);
-        Tile rightWall = Tile(50, 100000, 950, -99130, &wallText);
+        Tile rightWall = Tile(50, 100000, 950, -99130, wallTexture.get());
         rightWall.draw(window);
         player.draw(window);
         window.draw(text);

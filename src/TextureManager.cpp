@@ -19,7 +19,7 @@ std::shared_ptr<sf::Texture> TextureManager::insertTexture(std::string name, con
     }
 }
 
-std::shared_ptr<sf::Texture> TextureManager::getTexture(std::string name) const {
+std::shared_ptr<sf::Texture> TextureManager::getTexture(std::string name) {
     if(texturesMap.find(name) != texturesMap.end())
         return texturesMap[name];
     else
