@@ -24,3 +24,4 @@ Autorzy:
 - Klasa "Tile" (platforma)
 - losowa wielkość i położenie platform -> do poprawy 
 - Ruch kamery -> działa w miarę poprawnie, nie przesuwa się sama w razie bezczynności użytkownika
+- Manager tekstur; każda tekstura jest załadowana w pamięci tylko raz.
