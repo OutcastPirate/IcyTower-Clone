@@ -11,17 +11,20 @@
 #include "Wall.h"
 
 // To change environments comment unnecessary lines, and uncomment yours :)
-const std::string tilePath("resources/image.png");
-const std::string wallPath("resources/stoneWall.png");
-const std::string leftPlayerPath("resources/left.png");
-const std::string rightPlayerPath("resources/right.png");
-const std::string backgroundPath("resources/background.jpg");
+//const std::string tilePath("resources/image.png");
+//const std::string wallPath("resources/stoneWall.png");
+//const std::string leftPlayerPath("resources/left.png");
+//const std::string rightPlayerPath("resources/right.png");
+//const std::string backgroundPath("resources/background.jpg");
+//const std::string counterPath("resources/counterTexture.png");
 
-//const std::string tilePath("C:/Programowanie/IcyTower/proi_projekt/resources/image.png");
-//const std::string wallPath("C:/Programowanie/IcyTower/proi_projekt/resources/stoneWall.png");
-//const std::string leftPlayerPath("C:/Programowanie/IcyTower/proi_projekt/resources/left.png");
-//const std::string rightPlayerPath("C:/Programowanie/IcyTower/proi_projekt/resources/right.png");
-//const std::string backgroundPath("C:/Programowanie/IcyTower/proi_projekt/resources/background.jpg");
+
+const std::string tilePath("C:/Programowanie/IcyTower/proi_projekt/resources/image.png");
+const std::string wallPath("C:/Programowanie/IcyTower/proi_projekt/resources/stoneWall.png");
+const std::string leftPlayerPath("C:/Programowanie/IcyTower/proi_projekt/resources/left.png");
+const std::string rightPlayerPath("C:/Programowanie/IcyTower/proi_projekt/resources/right.png");
+const std::string backgroundPath("C:/Programowanie/IcyTower/proi_projekt/resources/background.jpg");
+const std::string counterPath("C:/Programowanie/IcyTower/proi_projekt/resources/counterTexture.png");
 
 
 int main() {
@@ -35,6 +38,8 @@ int main() {
     auto leftPlayerTexture = TextureManager::insertTexture("left", leftPlayerPath);
     auto rightPlayerTexture = TextureManager::insertTexture("right", rightPlayerPath);
     auto backgroundTexture = TextureManager::insertTexture("background", backgroundPath);
+    auto counterTexture = TextureManager::insertTexture("background", counterPath);
+
 
     sf::View camera(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(gameWidth, gameHeight));
 
@@ -68,19 +73,25 @@ int main() {
     sf::Event event{};
     float maxCameraPlacement = 500;
     sf::Font font;
-    if (!font.loadFromFile("resources/Roboto.ttf"))
+    //if (!font.loadFromFile("resources/Roboto.ttf"))
+    if (!font.loadFromFile("C:/Programowanie/IcyTower/proi_projekt/resources/Roboto.ttf"))
+
     {
         std::cout << "Cannot load font" << std::endl;
     }
     sf::Text text;
     text.setFont(font); // font is a sf::Font
-    text.setString("Hello world");
-    text.setCharacterSize(24); // in pixels, not points!
+    text.setString("0"); 
+    text.setCharacterSize(32); // in pixels, not points!
     text.setFillColor(sf::Color::Red);
 
     Tile leftWall = Tile(50, 100000, 0, -99130, wallTexture.get());
     Tile rightWall = Tile(50, 100000, 950, -99130, wallTexture.get());
+    Tile floorCounter = Tile(90, 90, 50, 650, counterTexture.get());
+    int currentFloor = 0;
 
+    
+    
     sf::Clock clock;
     while (window.isOpen()) {
         window.clear(sf::Color(0, 0, 0));
@@ -97,11 +108,23 @@ int main() {
                 std::cout << "Out of bounds" << std::endl;
             }
             camera.setCenter(sf::Vector2f(static_cast<float>(gameWidth) / 2, maxCameraPlacement));
-        } else {
+            floorCounter = Tile(90, 90, 60, (maxCameraPlacement - 430), counterTexture.get());
+            int textOffset = 10 * (std::to_string(currentFloor).length());
+            text.setPosition((110 - textOffset), (maxCameraPlacement - 405));
+            currentFloor = (-1) * ((int(player.getPosition().y) - 831) / 100);
+            text.setString(std::to_string(currentFloor));
+        }
+        else {
             camera.setCenter(sf::Vector2f(static_cast<float>(gameWidth) / 2, player.getPosition().y));
             maxCameraPlacement = player.getPosition().y;
-            if(maxCameraPlacement != lastCamera)
-                background.setPosition({0, background.getPosition().y + (maxCameraPlacement - lastCamera) / 2});
+            floorCounter = Tile(90, 90, 60, (maxCameraPlacement - 430), counterTexture.get());
+            int textOffset = 10 * (std::to_string(currentFloor).length());
+            text.setPosition((110 - textOffset), (maxCameraPlacement - 405));
+            currentFloor = (-1) * ((int(player.getPosition().y) - 831) / 100);
+            text.setString(std::to_string(currentFloor));
+            if (maxCameraPlacement != lastCamera) {            
+            background.setPosition({ 0, background.getPosition().y + (maxCameraPlacement - lastCamera) / 2 });
+            }
         }
         
         // Set camera view;
@@ -114,7 +137,7 @@ int main() {
 
         leftWall.draw(window);
         rightWall.draw(window);
-
+        floorCounter.draw(window);
         player.draw(window);
         window.draw(text);
         window.display();
@@ -128,5 +151,16 @@ int main() {
         }
     }
 
+
+
     return EXIT_SUCCESS;
 }
+
+
+//void counterSetup() {
+//    floorCounter = Tile(90, 90, 60, (maxCameraPlacement - 430), counterTexture.get());
+//    int textOffset = 10 * (std::to_string(currentFloor).length());
+//    text.setPosition((110 - textOffset), (maxCameraPlacement - 405));
+//    currentFloor = (-1) * ((int(player.getPosition().y) - 831) / 100);
+//    text.setString(std::to_string(currentFloor));
+//}
