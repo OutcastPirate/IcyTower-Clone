@@ -15,7 +15,7 @@ const int CHARACTER_HEIGHT = 40;
 
 class Player {
 public:
-    Player(float speed, float jumpHeight, const int &gameWidth, const int &gameHeight);
+    Player(float speed, float jumpHeight, const int &gameWidth, const int &gameHeight, sf::Texture *leftTexture, sf::Texture *rightTexture);
     /**
      *  Player class constructor
      *  @param speed Possible Speed
@@ -41,12 +41,15 @@ public:
      * and sets up _collides boolean value accordingly.
      */
 
+    void intersectWalls(Tile& leftWall, Tile& rightWall);
+
     sf::Vector2f getPosition() const;
 
 private:
     static sf::Vector3f getManifold(const sf::FloatRect& overlap, const sf::Vector2f& collisionNormal) ;
     void resolve(const sf::Vector3f& manifold);
-
+    sf::Vector2f reflect(const sf::Vector2f& velocity, const sf::Vector2f& normal);
+    float dot(const sf::Vector2f& lv, const sf::Vector2f& rv);
     sf::RectangleShape _body;
 
     sf::FloatRect _overlap;
@@ -65,6 +68,9 @@ private:
     bool _canJump;
     bool _leftWall;
     bool _collision{};
+
+    sf::Texture *_leftTexture;
+    sf::Texture *_rightTexture;
 };
 
 

@@ -6,7 +6,7 @@
 #include<iostream>
 
 
-Player::Player(float speed, float jumpHeight, const int &gameWidth, const int &gameHeight) : _gameWidth(gameWidth),
+Player::Player(float speed, float jumpHeight, const int &gameWidth, const int &gameHeight, sf::Texture *leftTexture, sf::Texture *rightTexture) : _gameWidth(gameWidth),
                                                                                              _gameHeight(gameHeight) {
     _speed = speed;
     _jumpHeight = jumpHeight;
@@ -17,31 +17,36 @@ Player::Player(float speed, float jumpHeight, const int &gameWidth, const int &g
     _tmpSpeed = _speed * _speedMultiply;
     _body.setSize(sf::Vector2f(CHARACTER_WIDTH, CHARACTER_HEIGHT));
     _body.setOrigin(_body.getSize() / 2.0f);
+
+    _leftTexture = leftTexture;
+    _rightTexture = rightTexture;
 }
 
 void Player::setPosition(int x, int y) { _body.setPosition(x, y); }
 
 sf::Vector2f Player::getPosition() const { return _body.getPosition(); }
 
+float Player::dot(const sf::Vector2f &lv, const sf::Vector2f &rv) {
+    return lv.x * rv.x + lv.y * rv.y;
+}
 
+sf::Vector2f Player::reflect(const sf::Vector2f &velocity, const sf::Vector2f &normal) {
+    return -2.f * dot(velocity, normal) * normal + velocity;
+}
 
 
 void Player::update(float deltaTime) {
     _canJump = _collision;
-    sf::Vector2f pos = _body.getPosition();
     if (sf::Keyboard::isKeyPressed((sf::Keyboard::Left))) {
-        if (_body.getGlobalBounds().left <= 50) {
-            _velocity.x = 0;
-        }
-        else {
             _velocity.x = -_tmpSpeed;
-        }
+            _facingRight = false;
     } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
         if (_body.getGlobalBounds().left >= 930) {
             _velocity.x = 0;
         }
         else {
             _velocity.x = _tmpSpeed;
+            _facingRight = true;
         }
     } else {
         if (_velocity.x > 0)
@@ -65,6 +70,13 @@ void Player::update(float deltaTime) {
         _velocity.y = 0.0f;
     }
     _body.move(_velocity * deltaTime);
+
+
+    if(_facingRight){
+        _body.setTexture(_rightTexture);
+    } else {
+        _body.setTexture(_leftTexture);
+    }
 }
 
 void Player::draw(sf::RenderWindow &window) { window.draw(_body); }
@@ -108,10 +120,23 @@ void Player::intersectTileVector(std::vector<Tile> &tileVector) {
             return;
         }
     }
-    if (_body.getGlobalBounds().left == 50) {
-        _leftWall = true;
-        return;
-    }
     _collision = false;
 }
+
+void Player::intersectWalls(Tile &leftWall, Tile &rightWall) {
+    _bounds = _body.getGlobalBounds();
+    sf::Vector2f collisionNormal;
+    if(leftWall.shape.getGlobalBounds().intersects(_bounds, _overlap)) {
+        collisionNormal = leftWall.shape.getPosition() - _body.getPosition();
+    } else if (rightWall.shape.getGlobalBounds().intersects(_bounds, _overlap)) {
+        collisionNormal = rightWall.shape.getPosition() - _body.getPosition();
+    } else {
+        return;
+    }
+
+    auto manifold = getManifold(_overlap, collisionNormal);
+    resolve(manifold);
+    _velocity = reflect(_velocity, {manifold.x, -manifold.y});
+}
+
 

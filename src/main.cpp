@@ -15,8 +15,13 @@
 // To change environments comment unnecessary lines, and uncomment yours :)
 const std::string tilePath("resources/image.png");
 const std::string wallPath("resources/stoneWall.png");
+const std::string leftPlayerPath("resources/left.png");
+const std::string rightPlayerPath("resources/right.png");
+
 //const std::string tilePath("C:/Programowanie/IcyTower/proi_projekt/resources/image.png");
 //const std::string wallPath("C:/Programowanie/IcyTower/proi_projekt/resources/stoneWall.png");
+//const std::string leftPlayerPath("C:/Programowanie/IcyTower/proi_projekt/resources/left.png");
+//const std::string rightPlayerPath("C:/Programowanie/IcyTower/proi_projekt/resources/right.png");
 
 
 int main() {
@@ -27,6 +32,8 @@ int main() {
     auto textureManager = TextureManager();
     auto tileTexture = TextureManager::insertTexture("tile", tilePath);
     auto wallTexture = TextureManager::insertTexture("wall", wallPath);
+    auto leftPlayerTexture = TextureManager::insertTexture("left", leftPlayerPath);
+    auto rightPlayerTexture = TextureManager::insertTexture("right", rightPlayerPath);
 
     sf::View camera(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(gameWidth, gameHeight));
 
@@ -47,7 +54,7 @@ int main() {
         tileVector.emplace_back(width, 30, xPosition, (750 - tileHeight), tileTexture.get());
         tileHeight += 100;
     }
-    Player player(400, 450, gameWidth, gameHeight);
+    Player player(400, 450, gameWidth, gameHeight, leftPlayerTexture.get(), rightPlayerTexture.get());
     player.setPosition(500, 800);
     sf::Event event{};
 
@@ -65,6 +72,8 @@ int main() {
     text.setCharacterSize(24); // in pixels, not points!
     text.setFillColor(sf::Color::Red);
 
+    Tile leftWall = Tile(50, 100000, 0, -99130, wallTexture.get());
+    Tile rightWall = Tile(50, 100000, 950, -99130, wallTexture.get());
 
     sf::Clock clock;
     while (window.isOpen()) {
@@ -72,6 +81,7 @@ int main() {
 
 
         player.intersectTileVector(tileVector);
+        player.intersectWalls(leftWall, rightWall);
         player.update(clock.restart().asSeconds());
 
         
@@ -94,10 +104,9 @@ int main() {
         }
 
 
-        Tile leftWall = Tile(50, 100000, 0, -99130, wallTexture.get());
         leftWall.draw(window);
-        Tile rightWall = Tile(50, 100000, 950, -99130, wallTexture.get());
         rightWall.draw(window);
+
         player.draw(window);
         window.draw(text);
         window.display();
