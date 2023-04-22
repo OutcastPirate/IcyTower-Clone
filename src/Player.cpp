@@ -6,13 +6,11 @@
 #include<iostream>
 
 
-Player::Player(float speed, float jumpHeight, const int &gameWidth, const int &gameHeight, sf::Texture *leftTexture, sf::Texture *rightTexture) : _gameWidth(gameWidth),
-                                                                                             _gameHeight(gameHeight) {
-    _speed = speed;
-    _jumpHeight = jumpHeight;
+Player::Player(sf::Texture *leftTexture, sf::Texture *rightTexture) {
+    _speed = SPEED;
+    _jumpHeight = JUMP_HEIGHT;
     _facingRight = true;
     _canJump = true;
-    _leftWall = false;
     _speedMultiply = 1.5;
     _tmpSpeed = _speed * _speedMultiply;
     _body.setSize(sf::Vector2f(CHARACTER_WIDTH, CHARACTER_HEIGHT));
@@ -22,7 +20,7 @@ Player::Player(float speed, float jumpHeight, const int &gameWidth, const int &g
     _rightTexture = rightTexture;
 }
 
-void Player::setPosition(int x, int y) { _body.setPosition(x, y); }
+void Player::setPosition(float x, float y) { _body.setPosition(x, y); }
 
 sf::Vector2f Player::getPosition() const { return _body.getPosition(); }
 
@@ -33,7 +31,6 @@ float Player::dot(const sf::Vector2f &lv, const sf::Vector2f &rv) {
 sf::Vector2f Player::reflect(const sf::Vector2f &velocity, const sf::Vector2f &normal) {
     return -2.f * dot(velocity, normal) * normal + velocity;
 }
-
 
 void Player::update(float deltaTime) {
     _canJump = _collision;

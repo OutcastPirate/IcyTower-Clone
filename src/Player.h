@@ -9,13 +9,15 @@
 #include <vector>
 #include "Tile.h"
 
-const float GRAVITY = 0.5f;
 const int CHARACTER_WIDTH = 20;
 const int CHARACTER_HEIGHT = 40;
+constexpr float SPEED = 400;
+constexpr float JUMP_HEIGHT = 350;
+
 
 class Player {
 public:
-    Player(float speed, float jumpHeight, const int &gameWidth, const int &gameHeight, sf::Texture *leftTexture, sf::Texture *rightTexture);
+    Player(sf::Texture *leftTexture, sf::Texture *rightTexture);
     /**
      *  Player class constructor
      *  @param speed Possible Speed
@@ -28,7 +30,7 @@ public:
      * @brief Updating all physics parameters.
      */
 
-    void setPosition(int x, int y);
+    void setPosition(float x, float y);
 
     void draw(sf::RenderWindow &window);
 
@@ -48,25 +50,21 @@ public:
 private:
     static sf::Vector3f getManifold(const sf::FloatRect& overlap, const sf::Vector2f& collisionNormal) ;
     void resolve(const sf::Vector3f& manifold);
-    sf::Vector2f reflect(const sf::Vector2f& velocity, const sf::Vector2f& normal);
     float dot(const sf::Vector2f& lv, const sf::Vector2f& rv);
+    sf::Vector2f reflect(const sf::Vector2f& velocity, const sf::Vector2f& normal);
     sf::RectangleShape _body;
 
     sf::FloatRect _overlap;
     sf::FloatRect _bounds;
 
     sf::Vector2f _velocity;
-    const int &_gameWidth;
-    const int &_gameHeight;
     float _speed;
     float _tmpSpeed;
     float _jumpHeight;
     float _speedMultiply;
-    float maxJumpHeight = 300.0f;
     bool _facingRight;
     bool _isJumping{};
     bool _canJump;
-    bool _leftWall;
     bool _collision{};
 
     sf::Texture *_leftTexture;

@@ -1,12 +1,10 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
-#include <cmath>
-#include <ctime>
 #include <random>
 #include <iostream>
 #include <cstdlib>
 #include <vector>
-#include <time.h>
+#include <ctime>
 #include "Player.h"
 #include "Tile.h"
 #include "TextureManager.h"
@@ -17,11 +15,13 @@ const std::string tilePath("resources/image.png");
 const std::string wallPath("resources/stoneWall.png");
 const std::string leftPlayerPath("resources/left.png");
 const std::string rightPlayerPath("resources/right.png");
+const std::string backgroundPath("resources/background.jpg");
 
 //const std::string tilePath("C:/Programowanie/IcyTower/proi_projekt/resources/image.png");
 //const std::string wallPath("C:/Programowanie/IcyTower/proi_projekt/resources/stoneWall.png");
 //const std::string leftPlayerPath("C:/Programowanie/IcyTower/proi_projekt/resources/left.png");
 //const std::string rightPlayerPath("C:/Programowanie/IcyTower/proi_projekt/resources/right.png");
+//const std::string backgroundPath("C:/Programowanie/IcyTower/proi_projekt/resources/background.jpg");
 
 
 int main() {
@@ -34,6 +34,7 @@ int main() {
     auto wallTexture = TextureManager::insertTexture("wall", wallPath);
     auto leftPlayerTexture = TextureManager::insertTexture("left", leftPlayerPath);
     auto rightPlayerTexture = TextureManager::insertTexture("right", rightPlayerPath);
+    auto backgroundTexture = TextureManager::insertTexture("background", backgroundPath);
 
     sf::View camera(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(gameWidth, gameHeight));
 
@@ -41,7 +42,14 @@ int main() {
                             sf::Style::Titlebar | sf::Style::Close);
     window.setVerticalSyncEnabled(false);
 
+    // Background setup
+    sf::Sprite background;
+    backgroundTexture->setRepeated(true);
+    background.setTexture(*backgroundTexture);
+    background.setTextureRect({0,0,gameWidth, gameHeight * 30});
+    background.setPosition({0,-gameHeight*27});
 
+    // Setting up tiles
     std::vector<Tile> tileVector;
     tileVector.emplace_back(1000, 200, 0, 850, tileTexture.get());
     for (int i = 0; i < 1000; i++) {
@@ -54,13 +62,11 @@ int main() {
         tileVector.emplace_back(width, 30, xPosition, (750 - tileHeight), tileTexture.get());
         tileHeight += 100;
     }
-    Player player(400, 450, gameWidth, gameHeight, leftPlayerTexture.get(), rightPlayerTexture.get());
-    player.setPosition(500, 800);
+    Player player(leftPlayerTexture.get(), rightPlayerTexture.get());
+    player.setPosition(500.0f, 800.0f);
+
     sf::Event event{};
-
-    int maxCameraPlacement = 500;
-
-
+    float maxCameraPlacement = 500;
     sf::Font font;
     if (!font.loadFromFile("resources/Roboto.ttf"))
     {
@@ -78,22 +84,24 @@ int main() {
     sf::Clock clock;
     while (window.isOpen()) {
         window.clear(sf::Color(0, 0, 0));
-
+        window.draw(background);
 
         player.intersectTileVector(tileVector);
         player.intersectWalls(leftWall, rightWall);
         player.update(clock.restart().asSeconds());
 
-        
+        auto lastCamera = maxCameraPlacement;
         if (player.getPosition().y > maxCameraPlacement) {
             if (player.getPosition().y > (maxCameraPlacement + 500)) {
                 window.close();
                 std::cout << "Out of bounds" << std::endl;
             }
-            camera.setCenter(sf::Vector2f(gameWidth / 2, maxCameraPlacement));
+            camera.setCenter(sf::Vector2f(static_cast<float>(gameWidth) / 2, maxCameraPlacement));
         } else {
-            camera.setCenter(sf::Vector2f(gameWidth / 2, player.getPosition().y));
+            camera.setCenter(sf::Vector2f(static_cast<float>(gameWidth) / 2, player.getPosition().y));
             maxCameraPlacement = player.getPosition().y;
+            if(maxCameraPlacement != lastCamera)
+                background.setPosition({0, background.getPosition().y + (maxCameraPlacement - lastCamera) / 2});
         }
         
         // Set camera view;
