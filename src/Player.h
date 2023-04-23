@@ -34,7 +34,7 @@ public:
 
     void draw(sf::RenderWindow &window);
 
-    void intersectTileVector(std::vector<Tile> &tileVector);
+    void intersectTileVector(const std::vector<Tile> &tileVector);
     /**
      * @param tileVector std::vector of Tile objects.
      *

@@ -5,13 +5,12 @@ Autorzy:
 - Paweł Skorupski
 
 ## (WHAT)TODO
-- Klasa Game
+- **poprawa optymalizacji zarządzania wyświetlaniem platform**
 - odbijanie od ścian - poprawić
 - zmniejszanie wielkości platform na wyższych poziomach
 - podmiana tekstur na wyższych poziomach
 - combosy
 - wyższe skoki uwarunkowane wcześniejszym rozpędzeniem się
-- poprawa optymalizacji zarządzania wyświetlaniem platform
 - ambitniejsza obsługa końca gry niż "window.close()" jak się spadnie ERROR goes BRRRR
 - menu startowe?
 - jakieś ustawienia coś może?
@@ -26,3 +25,4 @@ Autorzy:
 - counter, działa ale no jest zrobiomy z płyty wiórowej i taśmy
 - kolizja tylko z górną wartstwą platformy
 - obługa kierunkowości klasy gracza i podmiana tekstur w zależności od kierunku i prędkości ruchu
+- Klasa Game

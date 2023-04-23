@@ -100,7 +100,7 @@ void Player::resolve(const sf::Vector3f& manifold)
 }
 
 
-void Player::intersectTileVector(std::vector<Tile> &tileVector) {
+void Player::intersectTileVector(const std::vector<Tile> &tileVector) {
     _bounds = _body.getGlobalBounds();
     auto bottomPosition = _body.getPosition();
     bottomPosition.y += static_cast<float>(CHARACTER_HEIGHT) / 2.5;

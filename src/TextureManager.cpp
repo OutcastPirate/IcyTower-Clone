@@ -13,6 +13,7 @@ std::shared_ptr<sf::Texture> TextureManager::insertTexture(std::string name, con
     {
         // Loading successful
         texturePointer->setSmooth(true);
+        texturePointer->setRepeated(true);
         texturesMap[name] = texturePointer;
         return texturePointer;
     } else {
