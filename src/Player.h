@@ -56,7 +56,6 @@ private:
 
     sf::FloatRect _overlap;
     sf::FloatRect _bounds;
-
     sf::Vector2f _velocity;
     float _speed;
     float _tmpSpeed;
@@ -66,6 +65,8 @@ private:
     bool _isJumping{};
     bool _canJump;
     bool _collision{};
+    bool _wallCollision{};
+
 
     sf::Texture *_leftTexture;
     sf::Texture *_rightTexture;

@@ -71,7 +71,7 @@ void Player::update(float deltaTime) {
     }
 }
 
-void Player::draw(sf::RenderWindow &window) { window.draw(_body); }
+void Player::draw(sf::RenderWindow &window) { window.draw(_body);}
 
 sf::Vector3f Player::getManifold(const sf::FloatRect& overlap, const sf::Vector2f& collisionNormal)
 {
@@ -103,8 +103,7 @@ void Player::resolve(const sf::Vector3f& manifold)
 void Player::intersectTileVector(std::vector<Tile> &tileVector) {
     _bounds = _body.getGlobalBounds();
     auto bottomPosition = _body.getPosition();
-    bottomPosition.y -= static_cast<float>(CHARACTER_HEIGHT) / 2;
-
+    bottomPosition.y += static_cast<float>(CHARACTER_HEIGHT) / 2.5;
     for (const auto &tile: tileVector) {
         if (bottomPosition.y < tile.shape.getPosition().y && tile.shape.getGlobalBounds().intersects(_bounds, _overlap) && _velocity.y > 0.0f) {
             auto collisionNormal = tile.shape.getPosition() - _body.getPosition();
@@ -126,12 +125,18 @@ void Player::intersectWalls(Tile &leftWall, Tile &rightWall) {
     } else if (rightWall.shape.getGlobalBounds().intersects(_bounds, _overlap)) {
         collisionNormal = rightWall.shape.getPosition() - _body.getPosition();
     } else {
+        _wallCollision = false;
         return;
     }
 
     auto manifold = getManifold(_overlap, collisionNormal);
     resolve(manifold);
-    _velocity = reflect(_velocity, {manifold.x, -manifold.y});
+    if(!_wallCollision){
+        _velocity.y = -sqrtf(2.0f * 981.0f * this->_jumpHeight);
+        _wallCollision = true;
+    }
+    _velocity.x = -_velocity.x;
+
 }
 
 
