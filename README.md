@@ -5,8 +5,8 @@ Autorzy:
 - Paweł Skorupski
 
 ## (WHAT)TODO
-- odbijanie od ścian 
-- kolizja tylko z górną wartstwą platformy
+- Klasa Game
+- odbijanie od ścian - poprawić
 - zmniejszanie wielkości platform na wyższych poziomach
 - podmiana tekstur na wyższych poziomach
 - combosy
@@ -15,7 +15,6 @@ Autorzy:
 - ambitniejsza obsługa końca gry niż "window.close()" jak się spadnie ERROR goes BRRRR
 - menu startowe?
 - jakieś ustawienia coś może?
-- obługa kierunkowości klasy gracza i podmiana tekstur w zależności od kierunku i prędkości ruchu
 
 ## DONE
 - Obsługa kolizji z kolekcją obiektów typu Tile. (Player sprawdza kolejno ze wszystkimi Tile'ami czy nie koliduje)
@@ -25,3 +24,5 @@ Autorzy:
 - Ruch kamery -> działa w miarę poprawnie, nie przesuwa się sama w razie bezczynności użytkownika
 - Manager tekstur; każda tekstura jest załadowana w pamięci tylko raz.
 - counter, działa ale no jest zrobiomy z płyty wiórowej i taśmy
+- kolizja tylko z górną wartstwą platformy
+- obługa kierunkowości klasy gracza i podmiana tekstur w zależności od kierunku i prędkości ruchu

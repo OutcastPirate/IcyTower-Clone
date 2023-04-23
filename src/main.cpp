@@ -73,9 +73,8 @@ int main() {
     sf::Event event{};
     float maxCameraPlacement = 500;
     sf::Font font;
-    //if (!font.loadFromFile("resources/Roboto.ttf"))
-    if (!font.loadFromFile("C:/Programowanie/IcyTower/proi_projekt/resources/Roboto.ttf"))
-
+//    if (!font.loadFromFile("resources/Roboto.ttf"))
+    if (!font.loadFromFile("C:/Programowanie/IcyTower/proi_projekt/resources/Roboto.ttf") )
     {
         std::cout << "Cannot load font" << std::endl;
     }

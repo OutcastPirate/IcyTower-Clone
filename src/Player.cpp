@@ -38,13 +38,8 @@ void Player::update(float deltaTime) {
             _velocity.x = -_tmpSpeed;
             _facingRight = false;
     } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-        if (_body.getGlobalBounds().left >= 930) {
-            _velocity.x = 0;
-        }
-        else {
             _velocity.x = _tmpSpeed;
             _facingRight = true;
-        }
     } else {
         if (_velocity.x > 0)
             _velocity.x -= 1900.0f * deltaTime;
@@ -107,12 +102,15 @@ void Player::resolve(const sf::Vector3f& manifold)
 
 void Player::intersectTileVector(std::vector<Tile> &tileVector) {
     _bounds = _body.getGlobalBounds();
+    auto bottomPosition = _body.getPosition();
+    bottomPosition.y -= static_cast<float>(CHARACTER_HEIGHT) / 2;
 
     for (const auto &tile: tileVector) {
-        if (tile.shape.getGlobalBounds().intersects(_bounds, _overlap) && _velocity.y > 0.0f) {
+        if (bottomPosition.y < tile.shape.getPosition().y && tile.shape.getGlobalBounds().intersects(_bounds, _overlap) && _velocity.y > 0.0f) {
             auto collisionNormal = tile.shape.getPosition() - _body.getPosition();
             auto manifold = getManifold(_overlap, collisionNormal);
-            resolve(manifold);
+            resolve({0, manifold.y, manifold.z});
+
             _collision = true;
             return;
         }
