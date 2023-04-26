@@ -7,12 +7,11 @@
 
 
 Player::Player(sf::Texture *leftTexture, sf::Texture *rightTexture) {
-    _speed = SPEED;
+    _maximumSpeed = SPEED;
     _jumpHeight = JUMP_HEIGHT;
     _facingRight = true;
     _canJump = true;
-    _speedMultiply = 1.5;
-    _tmpSpeed = _speed * _speedMultiply;
+    _speedMultiply = 1900;
     _body.setSize(sf::Vector2f(CHARACTER_WIDTH, CHARACTER_HEIGHT));
     _body.setOrigin(_body.getSize() / 2.0f);
 
@@ -35,16 +34,14 @@ sf::Vector2f Player::reflect(const sf::Vector2f &velocity, const sf::Vector2f &n
 void Player::update(float deltaTime) {
     _canJump = _collision;
     if (sf::Keyboard::isKeyPressed((sf::Keyboard::Left))) {
-            _velocity.x = -_tmpSpeed;
-            _facingRight = false;
+        horizontalAcceleration(false);
     } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-            _velocity.x = _tmpSpeed;
-            _facingRight = true;
+        horizontalAcceleration(true);
     } else {
         if (_velocity.x > 0)
-            _velocity.x -= 1900.0f * deltaTime;
+            _velocity.x -= _speedMultiply * deltaTime;
         else if (_velocity.x < 0)
-            _velocity.x += 1900.0f * deltaTime;
+            _velocity.x += _speedMultiply * deltaTime;
     }
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && this->_canJump) {
@@ -68,6 +65,16 @@ void Player::update(float deltaTime) {
         _body.setTexture(_rightTexture);
     } else {
         _body.setTexture(_leftTexture);
+    }
+}
+
+void Player::horizontalAcceleration(bool accelerateRight) {
+    if(accelerateRight) {
+        _velocity.x = _maximumSpeed;
+        _facingRight = true;
+    } else {
+        _velocity.x = -_maximumSpeed;
+        _facingRight = false;
     }
 }
 

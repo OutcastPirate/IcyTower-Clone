@@ -11,7 +11,7 @@
 
 const int CHARACTER_WIDTH = 20;
 const int CHARACTER_HEIGHT = 40;
-constexpr float SPEED = 400;
+constexpr float SPEED = 800;
 constexpr float JUMP_HEIGHT = 350;
 
 
@@ -51,14 +51,14 @@ private:
     static sf::Vector3f getManifold(const sf::FloatRect& overlap, const sf::Vector2f& collisionNormal) ;
     void resolve(const sf::Vector3f& manifold);
     float dot(const sf::Vector2f& lv, const sf::Vector2f& rv);
+    void horizontalAcceleration(bool accelerateRight);
     sf::Vector2f reflect(const sf::Vector2f& velocity, const sf::Vector2f& normal);
     sf::RectangleShape _body;
 
     sf::FloatRect _overlap;
     sf::FloatRect _bounds;
     sf::Vector2f _velocity;
-    float _speed;
-    float _tmpSpeed;
+    float _maximumSpeed;
     float _jumpHeight;
     float _speedMultiply;
     bool _facingRight;

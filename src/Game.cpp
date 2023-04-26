@@ -21,7 +21,11 @@ Game::Game() {
                                                  sf::Style::Titlebar | sf::Style::Close, settings);
     _window->setVerticalSyncEnabled(false);
 
-    // Starting game clock.
+
+    sf::Image icon;
+    icon.loadFromFile(iconPath);
+    _window->setIcon(500, 500, icon.getPixelsPtr());
+
     _clock = std::make_unique<sf::Clock>();
 
     // Setting up camera
@@ -95,6 +99,8 @@ void Game::setupTextures() {
     TextureManager::insertTexture("right", rightPlayerPath);
     TextureManager::insertTexture("background", backgroundPath);
     TextureManager::insertTexture("counter", counterPath);
+
+    TextureManager::insertTexture("icon", counterPath);
 }
 
 void Game::generateTiles() {

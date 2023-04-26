@@ -22,6 +22,7 @@ const std::string leftPlayerPath("resources/left.png");
 const std::string rightPlayerPath("resources/right.png");
 const std::string backgroundPath("resources/background.jpg");
 const std::string counterPath("resources/counterTexture.png");
+const std::string iconPath("resources/icon.png");
 const std::string fontPath("resources/Roboto.ttf");
 
 
@@ -31,6 +32,7 @@ const std::string fontPath("resources/Roboto.ttf");
 //const std::string rightPlayerPath("C:/Programowanie/IcyTower/proi_projekt/resources/right.png");
 //const std::string backgroundPath("C:/Programowanie/IcyTower/proi_projekt/resources/background.jpg");
 //const std::string counterPath("C:/Programowanie/IcyTower/proi_projekt/resources/counterTexture.png");
+//const std::string iconPath("C:/Programowanie/IcyTower/proi_projekt/resources/icon.png");
 //const std::string fontPath("C:/Programowanie/IcyTower/proi_projekt/resources/Roboto.ttf");
 
 class Game {
@@ -65,14 +67,14 @@ private:
     sf::Sprite _counterSprite;
     sf::Font _font;
     sf::Text _scoreText;
-    sf::Event _event;
+    sf::Event _event{};
     std::unique_ptr<sf::Clock> _clock;
 
     bool _paused{false};
 
     float _maxCameraPlacement{500};
-    float _lastCameraPlacement;
-    unsigned int _textOffset;
+    float _lastCameraPlacement{};
+    unsigned int _textOffset{};
     int currentFloor{0};
 };
 
