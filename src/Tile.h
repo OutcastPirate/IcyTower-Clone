@@ -15,6 +15,7 @@ public:
     Tile(float width, float height, float x, float y, sf::Texture *texture);
     void draw(sf::RenderWindow &window) const;
     sf::RectangleShape shape;
+    void updateTexture();
 };
 
 

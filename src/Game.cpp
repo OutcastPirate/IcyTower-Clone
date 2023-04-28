@@ -21,6 +21,11 @@ Game::Game() {
                                                  sf::Style::Titlebar | sf::Style::Close, settings);
     _window->setVerticalSyncEnabled(false);
 
+//    soundTrack.loadFromFile(soundTrackPath);
+//    sound.setBuffer(soundTrack);
+//    sound.setLoop(true);
+//    sound.setVolume(20.0f);
+//    sound.play();
 
     sf::Image icon;
     icon.loadFromFile(iconPath);
@@ -71,6 +76,7 @@ void Game::update() {
     _player->intersectWalls(*_leftWall, *_rightWall);
     _player->update(_deltaTime);
 
+
     // Set camera view;
     _window->setView(_camera);
 
@@ -105,21 +111,35 @@ void Game::setupTextures() {
 
 void Game::generateTiles() {
     // Setting up tiles
-    int tileHeight = 0;
+    _highestTilePositionY = 750;
     _tileVector.emplace_back(1000, 200, 0, 850, TextureManager::getTexture("tile").get());
-    for (int i = 0; i < 1000; i++) {
-        int xPosition = 50 + (std::rand() % (750 - 50 + 1));
-        int width = 100 + (std::rand() % (400 - 100 + 1));
-        if ((i + 1) % 50 == 0 && i != 100) {
-            width = 1000;
-            xPosition = 0;
-        }
-        _tileVector.emplace_back(width, 30, xPosition, (750 - tileHeight), TextureManager::getTexture("tile").get());
-        tileHeight += 100;
+    for (int i = 0; i < 50; i++) {
+        auto tilePosition = getRandomTilePosition();
+        _tileVector.emplace_back(tilePosition.second, 30, tilePosition.first, _highestTilePositionY, TextureManager::getTexture("tile").get());
+        _highestTilePositionY -= 100;
     }
     // Setting up left and right walls.
     _leftWall = std::make_unique<Tile>(50, 100000, 0, -99130, TextureManager::getTexture("wall").get());
     _rightWall = std::make_unique<Tile>(50, 100000, 950, -99130, TextureManager::getTexture("wall").get());
+}
+
+inline std::pair<int, int> Game::getRandomTilePosition() {
+    return {50 + (std::rand() % (750 - 50 + 1)), 100 + (std::rand() % ((400-(10 * _gameLevel)) - 100 + 1))};
+}
+void Game::manageTiles() {
+    auto lowestTileFloor = - _tileVector[_lowestTileIndex].shape.getPosition().y / 100;
+    if(_currentFloor - lowestTileFloor  > 30 ) {
+        // if % 50 => max x size.
+        auto newPosition = getRandomTilePosition();
+        if(_lowestTileIndex == 0)
+            newPosition = {0, 1000};
+        _tileVector[_lowestTileIndex].shape.setPosition(newPosition.first, _highestTilePositionY);
+        _tileVector[_lowestTileIndex].shape.setSize({newPosition.second, 30.0f});
+        _tileVector[_lowestTileIndex].updateTexture();
+
+        _highestTilePositionY -= 100;
+        _lowestTileIndex = (_lowestTileIndex +1) % 50;
+    }
 }
 
 void Game::drawEntities() {
@@ -140,15 +160,18 @@ void Game::drawEntities() {
 
 void Game::setScreen() {
     _lastCameraPlacement = _maxCameraPlacement;
-    currentFloor = (-1) * ((int(_player->getPosition().y) - 831) / 100);
-    _textOffset = 10 * (std::to_string(currentFloor).length());
-    _scoreText.setString(std::to_string(currentFloor));
+    _currentFloor = (-1) * ((int(_player->getPosition().y) - 831) / 100);
+    _gameLevel = _currentFloor / 50;
+    _textOffset = 10 * (std::to_string(_currentFloor).length());
+    _scoreText.setString(std::to_string(_currentFloor));
     _scoreText.setPosition(static_cast<float>(110 - _textOffset), (_maxCameraPlacement - 405));
     _counterSprite.setPosition(60, _maxCameraPlacement - 430);
 
     if (_player->getPosition().y > _maxCameraPlacement) {
         _camera.setCenter(sf::Vector2f(static_cast<float>(gameWidth) / 2, _maxCameraPlacement));
     } else {
+        // BAD PLACE 4 it; but saves on not necessary operations.
+        manageTiles();
         _camera.setCenter(sf::Vector2f(static_cast<float>(gameWidth) / 2, _player->getPosition().y));
         _maxCameraPlacement = _player->getPosition().y;
         if (_maxCameraPlacement != _lastCameraPlacement) {
@@ -161,3 +184,4 @@ void Game::setScreen() {
 bool Game::isPlayerOutOfScreen() {
     return (_player->getPosition().y > (_maxCameraPlacement + 500));
 }
+

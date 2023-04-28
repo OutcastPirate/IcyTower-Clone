@@ -24,6 +24,7 @@ const std::string backgroundPath("resources/background.jpg");
 const std::string counterPath("resources/counterTexture.png");
 const std::string iconPath("resources/icon.png");
 const std::string fontPath("resources/Roboto.ttf");
+//const std::string soundTrackPath("resources/sound_track.wav");
 
 
 //const std::string tilePath("C:/Programowanie/IcyTower/proi_projekt/resources/image.png");
@@ -47,6 +48,8 @@ private:
     static void setupTextures();
 
     void generateTiles();
+    inline std::pair<int, int> getRandomTilePosition();
+    void manageTiles();
 
     void drawEntities();
 
@@ -69,13 +72,18 @@ private:
     sf::Text _scoreText;
     sf::Event _event{};
     std::unique_ptr<sf::Clock> _clock;
+    sf::SoundBuffer soundTrack;
+    sf::Sound sound;
 
     bool _paused{false};
 
     float _maxCameraPlacement{500};
     float _lastCameraPlacement{};
     unsigned int _textOffset{};
-    int currentFloor{0};
+    int _currentFloor{0};
+    int _gameLevel{0};
+    int _lowestTileIndex{0};
+    int _highestTilePositionY;
 };
 
 

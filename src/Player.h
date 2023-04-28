@@ -58,6 +58,7 @@ private:
     sf::FloatRect _overlap;
     sf::FloatRect _bounds;
     sf::Vector2f _velocity;
+    sf::Vector2f _energy{};
     float _maximumSpeed;
     float _jumpHeight;
     float _speedMultiply;
