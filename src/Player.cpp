@@ -70,10 +70,31 @@ void Player::update(float deltaTime) {
 
 void Player::horizontalAcceleration(bool accelerateRight) {
     if(accelerateRight) {
-        _velocity.x = _maximumSpeed;
+        if (_velocity.x < _maximumSpeed) {
+            if (_isJumping) {
+                _velocity.x += 2;
+            }
+            else {
+                _velocity.x += 1;
+            }
+        }
+        else {
+            _velocity.x = _maximumSpeed;
+        }
         _facingRight = true;
     } else {
-        _velocity.x = -_maximumSpeed;
+        if (_velocity.x > -_maximumSpeed) {
+            if (_isJumping) {
+                _velocity.x -= 2 ;
+            }
+            else {
+                _velocity.x -= 1;
+            }
+        }
+        else {
+            _velocity.x = -_maximumSpeed;
+
+        }
         _facingRight = false;
     }
 }

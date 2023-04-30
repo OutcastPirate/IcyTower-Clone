@@ -9,7 +9,6 @@
 #include <cstdlib>
 #include <vector>
 #include <ctime>
-
 #include "Game.h"
 
 
@@ -134,7 +133,7 @@ void Game::manageTiles() {
         if(_lowestTileIndex == 0)
             newPosition = {0, 1000};
         _tileVector[_lowestTileIndex].shape.setPosition(newPosition.first, _highestTilePositionY);
-        _tileVector[_lowestTileIndex].shape.setSize({newPosition.second, 30.0f});
+        _tileVector[_lowestTileIndex].shape.setSize(sf::Vector2f(newPosition.second, 30.0f ));
         _tileVector[_lowestTileIndex].updateTexture();
 
         _highestTilePositionY -= 100;
