@@ -10,10 +10,12 @@ Autorzy:
 - combosy
 - wyższe skoki uwarunkowane wcześniejszym rozpędzeniem się
 - ambitniejsza obsługa końca gry niż "window.close()" jak się spadnie ERROR goes BRRRR
-- menu startowe?
 - jakieś ustawienia coś może?
+- **DOPRACOWAĆ MENU. Ładniejsze przyciski; logo; refaktoryzacja kodu - Close żeby coś robił.**
+
 
 ## DONE
+- **Basic menu**
 - **poprawa optymalizacji zarządzania wyświetlaniem platform**
   - **Na starcie generowane jest jedynie 50 obiektów typu Tile; przy określonej różnicy wysokości do najniższej platformy; zachodzi zmiana wysokości => Przesunięce do góry oraz wylosowanie nowej pozycji na osi X oraz rozmiaru.**
   - **Zmiana maksymalnego rozmiaru platform wraz ze wzrostem wysokości; (co 50 tileów)**

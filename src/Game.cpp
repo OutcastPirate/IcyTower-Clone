@@ -7,18 +7,14 @@
 #include <random>
 #include <iostream>
 #include <cstdlib>
+#include <utility>
 #include <vector>
 #include <ctime>
 #include "Game.h"
 
 
-Game::Game() {
-    // Setting up render window.
-    sf::ContextSettings settings;
-    settings.antialiasingLevel = 8;
-    _window = std::make_unique<sf::RenderWindow>(sf::VideoMode(gameWidth, gameHeight, 32), "Icy Tower",
-                                                 sf::Style::Titlebar | sf::Style::Close, settings);
-    _window->setVerticalSyncEnabled(false);
+Game::Game(std::shared_ptr<sf::RenderWindow> window) {
+    _window = window;
 
 //    soundTrack.loadFromFile(soundTrackPath);
 //    sound.setBuffer(soundTrack);
