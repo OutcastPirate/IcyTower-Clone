@@ -72,10 +72,10 @@ void Player::horizontalAcceleration(bool accelerateRight) {
     if(accelerateRight) {
         if (_velocity.x < _maximumSpeed) {
             if (_isJumping) {
-                _velocity.x += 2;
+                _velocity.x += 0.005 * _maximumSpeed;
             }
             else {
-                _velocity.x += 0.5;
+                _velocity.x += 0.001 * _maximumSpeed;
             }
         }
         else {
@@ -85,10 +85,10 @@ void Player::horizontalAcceleration(bool accelerateRight) {
     } else {
         if (_velocity.x > -_maximumSpeed) {
             if (_isJumping) {
-                _velocity.x -= 2 ;
+                _velocity.x -= 0.005 * _maximumSpeed ;
             }
             else {
-                _velocity.x -= 0.5;
+                _velocity.x -= 0.001 * _maximumSpeed;
             }
         }
         else {
@@ -160,7 +160,7 @@ void Player::intersectWalls(Tile &leftWall, Tile &rightWall) {
     auto manifold = getManifold(_overlap, collisionNormal);
     resolve(manifold);
     if(!_wallCollision){
-        if (abs(_velocity.x == _maximumSpeed)) {
+        if (abs(_velocity.x) == _maximumSpeed) {
             _velocity.y = -sqrtf(2.0f * 981.0f * this->_jumpHeight) * 2;
         } else if (abs(_velocity.x) > (0.9 * _maximumSpeed)) {
             _velocity.y = -sqrtf(2.0f * 981.0f * this->_jumpHeight) * 1.2;
