@@ -75,7 +75,7 @@ void Player::horizontalAcceleration(bool accelerateRight) {
                 _velocity.x += 2;
             }
             else {
-                _velocity.x += 1;
+                _velocity.x += 0.5;
             }
         }
         else {
@@ -88,7 +88,7 @@ void Player::horizontalAcceleration(bool accelerateRight) {
                 _velocity.x -= 2 ;
             }
             else {
-                _velocity.x -= 1;
+                _velocity.x -= 0.5;
             }
         }
         else {
@@ -160,10 +160,23 @@ void Player::intersectWalls(Tile &leftWall, Tile &rightWall) {
     auto manifold = getManifold(_overlap, collisionNormal);
     resolve(manifold);
     if(!_wallCollision){
-        _velocity.y = -sqrtf(2.0f * 981.0f * this->_jumpHeight);
+        if (abs(_velocity.x == _maximumSpeed)) {
+            _velocity.y = -sqrtf(2.0f * 981.0f * this->_jumpHeight) * 2;
+        } else if (abs(_velocity.x) > (0.9 * _maximumSpeed)) {
+            _velocity.y = -sqrtf(2.0f * 981.0f * this->_jumpHeight) * 1.2;
+        }
+        else {
+            _velocity.y = -sqrtf(2.0f * 981.0f * this->_jumpHeight);
+
+        }
         _wallCollision = true;
     }
-    _velocity.x = -_velocity.x;
+    if (abs(_velocity.x) > (0.9 * _maximumSpeed)) {
+        _velocity.x = (-_velocity.x) * 0.3;
+    }
+    else {
+        _velocity.x = (-_velocity.x) * 1.1;
+    }
 
 }
 
