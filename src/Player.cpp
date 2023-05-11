@@ -14,7 +14,7 @@ Player::Player(sf::Texture *leftTexture, sf::Texture *rightTexture) {
     _speedMultiply = 1900;
     _body.setSize(sf::Vector2f(CHARACTER_WIDTH, CHARACTER_HEIGHT));
     _body.setOrigin(_body.getSize() / 2.0f);
-
+    _canWalljump = true;
     _leftTexture = leftTexture;
     _rightTexture = rightTexture;
 }
@@ -139,6 +139,7 @@ void Player::intersectTileVector(const std::vector<Tile> &tileVector) {
             resolve({0, manifold.y, manifold.z});
 
             _collision = true;
+            _canWalljump = true;
             return;
         }
     }
@@ -159,24 +160,41 @@ void Player::intersectWalls(Tile &leftWall, Tile &rightWall) {
 
     auto manifold = getManifold(_overlap, collisionNormal);
     resolve(manifold);
-    if(!_wallCollision){
-        if (abs(_velocity.x) == _maximumSpeed) {
-            _velocity.y = -sqrtf(2.0f * 981.0f * this->_jumpHeight) * 2;
-        } else if (abs(_velocity.x) > (0.9 * _maximumSpeed)) {
-            _velocity.y = -sqrtf(2.0f * 981.0f * this->_jumpHeight) * 1.2;
-        }
-        else {
-            _velocity.y = -sqrtf(2.0f * 981.0f * this->_jumpHeight);
+    
 
+    if(!_wallCollision){
+        if (_canWalljump) {
+            if (abs(_velocity.x) == _maximumSpeed) {
+                _velocity.y = -sqrtf(2.0f * 981.0f * this->_jumpHeight) * 2;
+            }
+            else if (abs(_velocity.x) > (0.9 * _maximumSpeed)) {
+                _velocity.y = -sqrtf(2.0f * 981.0f * this->_jumpHeight) * 1.2;
+            }
+            else if (abs(_velocity.x) < (0.5 * _maximumSpeed)) {
+
+            }
+            else {
+                _velocity.y = -sqrtf(2.0f * 981.0f * this->_jumpHeight);
+
+            }
         }
         _wallCollision = true;
     }
-    if (abs(_velocity.x) > (0.9 * _maximumSpeed)) {
-        _velocity.x = (-_velocity.x) * 0.3;
+    if (_canWalljump) {
+        if (abs(_velocity.x) > (0.9 * _maximumSpeed)) {
+            _velocity.x = (-_velocity.x) * 0.3;
+        }
+        else if (abs(_velocity.x) < (0.5 * _maximumSpeed)) {
+
+        }
+        else {
+            _velocity.x = (-_velocity.x) * 1.1;
+        }
     }
     else {
-        _velocity.x = (-_velocity.x) * 1.1;
+        _velocity.x = 0;
     }
+    _canWalljump = false;
 
 }
 

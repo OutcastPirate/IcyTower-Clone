@@ -67,6 +67,7 @@ private:
     bool _canJump;
     bool _collision{};
     bool _wallCollision{};
+    bool _canWalljump;
 
 
     sf::Texture *_leftTexture;
