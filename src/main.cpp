@@ -1,9 +1,11 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <cstdlib>
+#include <iostream>
 
 #include "Game.h"
 #include "MainMenu.h"
+#include "EndGame.h"
 
 
 int main() {
@@ -11,26 +13,46 @@ int main() {
     sf::ContextSettings settings;
     settings.antialiasingLevel = 8;
     auto window = std::make_shared<sf::RenderWindow>(sf::VideoMode(gameWidth, gameHeight, 32), "Icy Tower",
-                                                 sf::Style::Titlebar | sf::Style::Close, settings);
+        sf::Style::Titlebar | sf::Style::Close, settings);
     window->setVerticalSyncEnabled(false);
 
+
+
     auto mainMenu = MainMenu(window);
-    while(!mainMenu.optionSelected()){
+    while (!mainMenu.optionSelected()) {
         mainMenu.update();
     }
 
-
-    if(mainMenu.getSelectedOption() <= 0) {
+    if (mainMenu.getSelectedOption() <= 0) {
         window->close();
         return EXIT_SUCCESS;
     }
 
-    auto game = Game(window);
+    while (true) {
+        auto game = Game(window);
+        while (!game.isPlayerOutOfScreen()) {
+            game.update();
+        }
+        auto camera = sf::View(sf::Vector2f(static_cast<float>(gameWidth) / 2, 450), sf::Vector2f(gameWidth, gameHeight));
+        window->setView(camera);
 
-    while(game.isWindowOpen()) {
-        game.update();
+        auto endGame = EndGame(window);
+        while (!endGame.optionSelected()) {
+            endGame.update();
+        }
+        if (endGame.getSelectedOption() > 0) {
+            continue;
+        }
+        else {
+            break;
+        }
     }
-    return EXIT_SUCCESS;
+
+
+
+    window->close();
+
+    return 0;
 }
 
 //void counterSetup() {

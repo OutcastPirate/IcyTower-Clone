@@ -16,25 +16,25 @@ const int gameHeight = 900;
 
 
 // To change environments comment unnecessary lines, and uncomment yours :)
-const std::string tilePath("resources/image.png");
-const std::string wallPath("resources/stoneWall.png");
-const std::string leftPlayerPath("resources/left.png");
-const std::string rightPlayerPath("resources/right.png");
-const std::string backgroundPath("resources/background.jpg");
-const std::string counterPath("resources/counterTexture.png");
-const std::string iconPath("resources/icon.png");
-const std::string fontPath("resources/Roboto.ttf");
+//const std::string tilePath("resources/image.png");
+//const std::string wallPath("resources/stoneWall.png");
+//const std::string leftPlayerPath("resources/left.png");
+//const std::string rightPlayerPath("resources/right.png");
+//const std::string backgroundPath("resources/background.jpg");
+//const std::string counterPath("resources/counterTexture.png");
+//const std::string iconPath("resources/icon.png");
+//const std::string fontPath("resources/Roboto.ttf");
 //const std::string soundTrackPath("resources/sound_track.wav");
 
 
-//const std::string tilePath("C:/Programowanie/IcyTower/proi_projekt/resources/image.png");
-//const std::string wallPath("C:/Programowanie/IcyTower/proi_projekt/resources/stoneWall.png");
-//const std::string leftPlayerPath("C:/Programowanie/IcyTower/proi_projekt/resources/left.png");
-//const std::string rightPlayerPath("C:/Programowanie/IcyTower/proi_projekt/resources/right.png");
-//const std::string backgroundPath("C:/Programowanie/IcyTower/proi_projekt/resources/background.jpg");
-//const std::string counterPath("C:/Programowanie/IcyTower/proi_projekt/resources/counterTexture.png");
-//const std::string iconPath("C:/Programowanie/IcyTower/proi_projekt/resources/icon.png");
-//const std::string fontPath("C:/Programowanie/IcyTower/proi_projekt/resources/Roboto.ttf");
+const std::string tilePath("C:/Programowanie/IcyTower/proi_projekt/resources/image.png");
+const std::string wallPath("C:/Programowanie/IcyTower/proi_projekt/resources/stoneWall.png");
+const std::string leftPlayerPath("C:/Programowanie/IcyTower/proi_projekt/resources/left.png");
+const std::string rightPlayerPath("C:/Programowanie/IcyTower/proi_projekt/resources/right.png");
+const std::string backgroundPath("C:/Programowanie/IcyTower/proi_projekt/resources/background.jpg");
+const std::string counterPath("C:/Programowanie/IcyTower/proi_projekt/resources/counterTexture.png");
+const std::string iconPath("C:/Programowanie/IcyTower/proi_projekt/resources/icon.png");
+const std::string fontPath("C:/Programowanie/IcyTower/proi_projekt/resources/Roboto.ttf");
 
 class Game {
 public:
@@ -43,6 +43,8 @@ public:
     bool isWindowOpen() const;
 
     void update();
+
+    bool isPlayerOutOfScreen();
 
 private:
     static void setupTextures();
@@ -55,7 +57,6 @@ private:
 
     void setScreen();
 
-    bool isPlayerOutOfScreen();
 
     float _deltaTime{0};
     std::shared_ptr<sf::RenderWindow> _window;

@@ -164,7 +164,7 @@ void Player::intersectWalls(Tile &leftWall, Tile &rightWall) {
 
     if(!_wallCollision){
         if (_canWalljump) {
-            if (abs(_velocity.x) == _maximumSpeed) {
+            if (abs(_velocity.x) == _maximumSpeed && _velocity.y < 0) {
                 _velocity.y = -sqrtf(2.0f * 981.0f * this->_jumpHeight) * 2;
             }
             else if (abs(_velocity.x) > (0.9 * _maximumSpeed)) {

@@ -11,7 +11,7 @@
 
 const int CHARACTER_WIDTH = 20;
 const int CHARACTER_HEIGHT = 40;
-constexpr float SPEED = 800;
+constexpr float SPEED = 700;
 constexpr float JUMP_HEIGHT = 350;
 
 

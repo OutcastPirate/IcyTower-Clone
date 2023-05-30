@@ -71,7 +71,6 @@ void Game::update() {
     _player->intersectWalls(*_leftWall, *_rightWall);
     _player->update(_deltaTime);
 
-
     // Set camera view;
     _window->setView(_camera);
 
@@ -79,10 +78,11 @@ void Game::update() {
     setScreen();
 
     //Handle player out of screen.
-    if (isPlayerOutOfScreen()) {
-        std::cout << "Out of bounds" << std::endl;
-        _window->close();
-    }
+    //if (isPlayerOutOfScreen()) {
+    //    std::cout << "Out of bounds" << std::endl;
+    //    _window->close();
+    //}
+    isPlayerOutOfScreen();
 
     // Process events
     while (_window->pollEvent(static_cast<sf::Event &>(_event))) {
@@ -174,6 +174,7 @@ void Game::setScreen() {
                     {0, _backgroundSprite.getPosition().y + (_maxCameraPlacement - _lastCameraPlacement) / 2});
         }
     }
+
 }
 
 bool Game::isPlayerOutOfScreen() {
