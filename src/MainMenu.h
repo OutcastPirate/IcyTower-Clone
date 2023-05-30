@@ -22,6 +22,8 @@ public:
     MainMenu(std::shared_ptr<sf::RenderWindow> window);
     void update();
     bool optionSelected();
+    int getSelectedOption();
+    int option{0};
 private:
     void setupTextures();
     void handleInput();

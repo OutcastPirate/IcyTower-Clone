@@ -9,16 +9,16 @@
 
 class UIButton {
 public:
-    UIButton(sf::Texture& inactiveTexture, sf::Texture& activeTexture);
+    UIButton(sf::Texture& inactiveTexture, sf::Texture& activeTexture, int button_code);
     void changeState();
     void draw(sf::RenderWindow& window);
     void setPosition(int x, int y);
-private:
+    sf::Sprite sprite;
+    int button_code;
     bool active{false};
+private:
     sf::Texture inactiveTexture;
     sf::Texture activeTexture;
-
-    sf::Sprite sprite;
 };
 
 

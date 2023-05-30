@@ -4,10 +4,11 @@
 
 #include "UIButton.h"
 
-UIButton::UIButton(sf::Texture &inactiveTexture, sf::Texture &activeTexture) {
+UIButton::UIButton(sf::Texture &inactiveTexture, sf::Texture &activeTexture, int button_code) {
     this->inactiveTexture = inactiveTexture;
     this->activeTexture = activeTexture;
     sprite = sf::Sprite(inactiveTexture);
+    this->button_code = button_code;
 }
 
 void UIButton::setPosition(int x, int y) {

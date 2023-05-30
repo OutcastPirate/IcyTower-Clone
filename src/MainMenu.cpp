@@ -27,7 +27,12 @@ void MainMenu::handleInput() {
     while (window->pollEvent(static_cast<sf::Event &>(event))) {
         // Close window : exit
         if (event.type == sf::Event::Closed)
+        {
             window->close();
+            selected = true;
+            option = -1;
+            return;
+        }
 
         if (event.type == sf::Event::KeyPressed)
         {
@@ -50,6 +55,22 @@ void MainMenu::handleInput() {
             }
         }
     }
+
+    if(sf::Mouse::isButtonPressed(sf::Mouse::Left))
+    {
+        auto mousePosition = sf::Mouse::getPosition(*window);
+        auto translated_pos = window->mapPixelToCoords((mousePosition));
+
+        for(auto& button : buttonVector)
+        {
+            if(button.sprite.getGlobalBounds().contains(translated_pos)) {
+                button.changeState();
+                selected = true;
+                option = button.button_code;
+                break;
+            }
+        }
+    }
 }
 
 bool MainMenu::optionSelected() {
@@ -68,9 +89,20 @@ void MainMenu::setupTextures() {
 
 
 
-    buttonVector.emplace_back(*TextureManager::getTexture("menu_button_play"), *TextureManager::getTexture("menu_button_play_selected"));
-    buttonVector[0].setPosition(100, 200);
+    buttonVector.emplace_back(*TextureManager::getTexture("menu_button_play"), *TextureManager::getTexture("menu_button_play_selected"), 1);
+    buttonVector[0].setPosition(300, 400);
+    buttonVector.emplace_back(*TextureManager::getTexture("menu_button_close"), *TextureManager::getTexture("menu_button_close_selected"), -1);
+    buttonVector[1].setPosition(300, 500);
     buttonVector[0].changeState();
-    buttonVector.emplace_back(*TextureManager::getTexture("menu_button_close"), *TextureManager::getTexture("menu_button_close_selected"));
-    buttonVector[1].setPosition(100, 300);
+}
+
+int MainMenu::getSelectedOption() {
+    for(auto& button : buttonVector){
+        if(button.active)
+        {
+            option = button.button_code;
+            break;
+        }
+    }
+    return option;
 }
