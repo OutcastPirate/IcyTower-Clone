@@ -5,6 +5,7 @@
 #include "Game.h"
 #include "MainMenu.h"
 
+
 int main() {
     // Setting up render window.
     sf::ContextSettings settings;
@@ -16,6 +17,12 @@ int main() {
     auto mainMenu = MainMenu(window);
     while(!mainMenu.optionSelected()){
         mainMenu.update();
+    }
+
+
+    if(mainMenu.getSelectedOption() <= 0) {
+        window->close();
+        return EXIT_SUCCESS;
     }
 
     auto game = Game(window);
