@@ -1,13 +1,11 @@
-//
-// Created by pawel on 01.05.23.
-//
-
 #include "EndGame.h"
 #include "Game.h"
 #include<iostream>
 
-EndGame::EndGame(std::shared_ptr<sf::RenderWindow> window) {
+EndGame::EndGame(std::shared_ptr<sf::RenderWindow> window, int score, int highScore) {
     this->window = window;
+    this->_highScore = highScore;
+    this->_score = score;
     setupTextures();
 }
 
@@ -15,9 +13,13 @@ void EndGame::update() {
     handleInput();
     window->clear(sf::Color(0, 0, 0));
     window->draw(background);
+    window->draw(scoreText);
+    window->draw(highScoreText);
     for (auto& item : buttonVector) {
         item.draw(*window);
     }
+
+    
     window->display();
 }
 
@@ -86,7 +88,18 @@ void EndGame::setupTextures() {
 
     background = sf::Sprite(*TextureManager::getTexture("menu_background"));
     background.setTextureRect({ 0,0, gameWidth, gameHeight });
-
+    if (!font.loadFromFile(fontPath))
+        std::cout << "Cannot load font" << std::endl;
+    scoreText.setFont(font); // font is a sf::Font
+    scoreText.setString("Score: " + std::to_string(_score));
+    scoreText.setCharacterSize(70); // in pixels, not points!
+    scoreText.setFillColor(sf::Color::White);
+    scoreText.setPosition(300, 250);
+    highScoreText.setFont(font); // font is a sf::Font
+    highScoreText.setString("Highscore: " + std::to_string(_highScore));
+    highScoreText.setCharacterSize(70); // in pixels, not points!
+    highScoreText.setFillColor(sf::Color::White);
+    highScoreText.setPosition(300, 150);
 
 
     buttonVector.emplace_back(*TextureManager::getTexture("menu_button_play"), *TextureManager::getTexture("menu_button_play_selected"), 1);

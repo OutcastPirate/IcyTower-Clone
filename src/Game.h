@@ -4,6 +4,7 @@
 
 #ifndef ICYTOWER_GAME_H
 #define ICYTOWER_GAME_H
+#define HIGHSCORE 0
 
 #include "Player.h"
 #include "Tile.h"
@@ -34,7 +35,7 @@ const std::string rightPlayerPath("C:/Programowanie/IcyTower/proi_projekt/resour
 const std::string backgroundPath("C:/Programowanie/IcyTower/proi_projekt/resources/background.jpg");
 const std::string counterPath("C:/Programowanie/IcyTower/proi_projekt/resources/counterTexture.png");
 const std::string iconPath("C:/Programowanie/IcyTower/proi_projekt/resources/icon.png");
-const std::string fontPath("C:/Programowanie/IcyTower/proi_projekt/resources/Roboto.ttf");
+const std::string fontPath("C:/Programowanie/IcyTower/proi_projekt/resources/VT323-Regular.ttf");
 
 class Game {
 public:
@@ -45,6 +46,8 @@ public:
     void update();
 
     bool isPlayerOutOfScreen();
+
+    int  highScore = 0;
 
 private:
     static void setupTextures();

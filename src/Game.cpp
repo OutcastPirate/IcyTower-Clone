@@ -1,7 +1,6 @@
 //
 // Created by pawel on 23.04.23.
 //
-
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <random>
@@ -55,7 +54,7 @@ Game::Game(std::shared_ptr<sf::RenderWindow> window) {
     _counterSprite.setPosition({50, 650});
     _scoreText.setFont(_font); // font is a sf::Font
     _scoreText.setString("0");
-    _scoreText.setCharacterSize(32); // in pixels, not points!
+    _scoreText.setCharacterSize(45); // in pixels, not points!
     _scoreText.setFillColor(sf::Color::Red);
 }
 
@@ -76,7 +75,7 @@ void Game::update() {
 
     drawEntities();
     setScreen();
-
+    
     //Handle player out of screen.
     //if (isPlayerOutOfScreen()) {
     //    std::cout << "Out of bounds" << std::endl;
@@ -159,13 +158,18 @@ void Game::setScreen() {
     _gameLevel = _currentFloor / 50;
     _textOffset = 10 * (std::to_string(_currentFloor).length());
     _scoreText.setString(std::to_string(_currentFloor));
+    if (_currentFloor > highScore) {
+        highScore = _currentFloor;
+    }
     _scoreText.setPosition(static_cast<float>(110 - _textOffset), (_maxCameraPlacement - 405));
-    _counterSprite.setPosition(60, _maxCameraPlacement - 430);
+    _counterSprite.setPosition(62.5, _maxCameraPlacement - 420);
 
     if (_player->getPosition().y > _maxCameraPlacement) {
+        if (_player->getPosition().y < 400) {
+            _maxCameraPlacement -= 0.15;
+        }
         _camera.setCenter(sf::Vector2f(static_cast<float>(gameWidth) / 2, _maxCameraPlacement));
     } else {
-        // BAD PLACE 4 it; but saves on not necessary operations.
         manageTiles();
         _camera.setCenter(sf::Vector2f(static_cast<float>(gameWidth) / 2, _player->getPosition().y));
         _maxCameraPlacement = _player->getPosition().y;
