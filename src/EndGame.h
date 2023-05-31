@@ -16,7 +16,7 @@
 
 class EndGame {
 public:
-    EndGame(std::shared_ptr<sf::RenderWindow> window);
+    EndGame(std::shared_ptr<sf::RenderWindow> window, int score, int highScore);
     void update();
     bool optionSelected();
     int getSelectedOption();
@@ -30,8 +30,12 @@ private:
     sf::Sprite background;
     std::vector<UIButton> buttonVector;
     std::shared_ptr<sf::RenderWindow> window;
+    sf::Text scoreText;
+    sf::Text highScoreText;
     bool selected{ false };
     sf::Font font;
+    int _score;
+    int _highScore;
 };
 
 
