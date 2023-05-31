@@ -11,16 +11,17 @@
 #include "TextureManager.h"
 #include "UIButton.h"
 
-//const std::string playPath = "resources/menu_play.jpg";
-//const std::string playSelectedPath = "resources/menu_play_selected.jpg";
-//const std::string closePath = "resources/menu_close.jpg";
-//const std::string closeSelectedPath = "resources/menu_close_selected.jpg";
+const std::string playPath = "resources/menu_play.jpg";
+const std::string playSelectedPath = "resources/menu_play_selected.jpg";
+const std::string closePath = "resources/menu_close.jpg";
+const std::string closeSelectedPath = "resources/menu_close_selected.jpg";
+const std::string logoPath = "resources/icon.png";
 
 
-const std::string playPath = "C:/Programowanie/IcyTower/proi_projekt/resources/menu_play.jpg";
-const std::string playSelectedPath = "C:/Programowanie/IcyTower/proi_projekt/resources/menu_play_selected.jpg";
-const std::string closePath = "C:/Programowanie/IcyTower/proi_projekt/resources/menu_close.jpg";
-const std::string closeSelectedPath = "C:/Programowanie/IcyTower/proi_projekt/resources/menu_close_selected.jpg";
+//const std::string playPath = "C:/Programowanie/IcyTower/proi_projekt/resources/menu_play.jpg";
+//const std::string playSelectedPath = "C:/Programowanie/IcyTower/proi_projekt/resources/menu_play_selected.jpg";
+//const std::string closePath = "C:/Programowanie/IcyTower/proi_projekt/resources/menu_close.jpg";
+//const std::string closeSelectedPath = "C:/Programowanie/IcyTower/proi_projekt/resources/menu_close_selected.jpg";
 
 class MainMenu {
 public:
@@ -35,6 +36,7 @@ private:
 
     unsigned int selectedItem{0};
     sf::Sprite background;
+    sf::Sprite gameLogo;
     std::vector<UIButton> buttonVector;
     std::shared_ptr<sf::RenderWindow> window;
     bool selected{false};

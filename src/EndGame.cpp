@@ -49,6 +49,7 @@ void EndGame::handleInput() {
                 selectedItem = (selectedItem - 1) % 2;
                 buttonVector[selectedItem].changeState();
                 break;
+            case sf::Keyboard::Space :
             case sf::Keyboard::Return:
                 selected = true;
                 break;
@@ -95,11 +96,13 @@ void EndGame::setupTextures() {
     scoreText.setCharacterSize(70); // in pixels, not points!
     scoreText.setFillColor(sf::Color::White);
     scoreText.setPosition(300, 250);
+    scoreText.setStyle(sf::Text::Bold);
     highScoreText.setFont(font); // font is a sf::Font
     highScoreText.setString("Highscore: " + std::to_string(_highScore));
     highScoreText.setCharacterSize(70); // in pixels, not points!
     highScoreText.setFillColor(sf::Color::White);
     highScoreText.setPosition(300, 150);
+    highScoreText.setStyle(sf::Text::Bold);
 
 
     buttonVector.emplace_back(*TextureManager::getTexture("menu_button_play"), *TextureManager::getTexture("menu_button_play_selected"), 1);

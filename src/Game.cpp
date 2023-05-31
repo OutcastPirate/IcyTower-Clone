@@ -56,6 +56,7 @@ Game::Game(std::shared_ptr<sf::RenderWindow> window) {
     _scoreText.setString("0");
     _scoreText.setCharacterSize(45); // in pixels, not points!
     _scoreText.setFillColor(sf::Color::Red);
+    _scoreText.setStyle(sf::Text::Bold);
 }
 
 bool Game::isWindowOpen() const {
@@ -182,6 +183,6 @@ void Game::setScreen() {
 }
 
 bool Game::isPlayerOutOfScreen() {
-    return (_player->getPosition().y > (_maxCameraPlacement + 500));
+    return (_player->getPosition().y + (CHARACTER_HEIGHT / 2) > (_maxCameraPlacement + 450));
 }
 

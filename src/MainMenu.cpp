@@ -15,6 +15,7 @@ void MainMenu::update() {
     handleInput();
     window->clear(sf::Color(0, 0, 0));
     window->draw(background);
+    window->draw(gameLogo);
     for(auto &item : buttonVector) {
         item.draw(*window);
     }
@@ -47,7 +48,8 @@ void MainMenu::handleInput() {
                     selectedItem = (selectedItem - 1) % 2;
                     buttonVector[selectedItem].changeState();
                     break;
-                case sf::Keyboard::Return :
+                case sf::Keyboard::Space :
+                case sf::Keyboard::Return:
                     selected = true;
                     break;
                 default:
@@ -83,10 +85,12 @@ void MainMenu::setupTextures() {
     TextureManager::insertTexture("menu_button_play_selected", playSelectedPath);
     TextureManager::insertTexture("menu_button_close", closePath);
     TextureManager::insertTexture("menu_button_close_selected", closeSelectedPath);
+    TextureManager::insertTexture("menu_logo", logoPath);
 
     background = sf::Sprite(*TextureManager::getTexture("menu_background"));
     background.setTextureRect({0,0, gameWidth, gameHeight});
-
+    gameLogo = sf::Sprite(*TextureManager::getTexture("menu_logo"));
+    gameLogo.setTextureRect({0,0, 400, 400});
 
 
     buttonVector.emplace_back(*TextureManager::getTexture("menu_button_play"), *TextureManager::getTexture("menu_button_play_selected"), 1);
