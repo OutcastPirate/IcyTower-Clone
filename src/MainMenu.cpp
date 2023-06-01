@@ -89,8 +89,11 @@ void MainMenu::setupTextures() {
 
     background = sf::Sprite(*TextureManager::getTexture("menu_background"));
     background.setTextureRect({0,0, gameWidth, gameHeight});
+
     gameLogo = sf::Sprite(*TextureManager::getTexture("menu_logo"));
-    gameLogo.setTextureRect({0,0, 400, 400});
+    gameLogo.setTextureRect({0,0, 500, 500});
+    gameLogo.setScale({0.8, 0.8});
+    gameLogo.setPosition(300, 0);
 
 
     buttonVector.emplace_back(*TextureManager::getTexture("menu_button_play"), *TextureManager::getTexture("menu_button_play_selected"), 1);

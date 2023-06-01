@@ -5,6 +5,10 @@
 #ifndef ICYTOWER_PLAYER_H
 #define ICYTOWER_PLAYER_H
 
+#ifdef TEST
+#define private public
+#endif
+
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include "Tile.h"

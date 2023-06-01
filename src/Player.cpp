@@ -5,7 +5,6 @@
 #include <cmath>
 #include<iostream>
 
-
 Player::Player(sf::Texture *leftTexture, sf::Texture *rightTexture) {
     _maximumSpeed = SPEED;
     _jumpHeight = JUMP_HEIGHT;
