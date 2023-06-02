@@ -12,11 +12,8 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include "Tile.h"
+#include "GameSettings.h"
 
-const int CHARACTER_WIDTH = 40;
-const int CHARACTER_HEIGHT = 40;
-constexpr float SPEED = 700;
-constexpr float JUMP_HEIGHT = 350;
 
 
 class Player {

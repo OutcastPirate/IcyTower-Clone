@@ -77,11 +77,6 @@ void Game::update() {
     drawEntities();
     setScreen();
     
-    //Handle player out of screen.
-    //if (isPlayerOutOfScreen()) {
-    //    std::cout << "Out of bounds" << std::endl;
-    //    _window->close();
-    //}
     isPlayerOutOfScreen();
 
     // Process events
@@ -107,7 +102,7 @@ void Game::setupTextures() {
 void Game::generateTiles() {
     // Setting up tiles
     _highestTilePositionY = 750;
-    _tileVector.emplace_back(1000, 200, 0, 850, TextureManager::getTexture("tile").get());
+    _tileVector.emplace_back(1000, 200, 0, 870, TextureManager::getTexture("tile").get());
     for (int i = 0; i < 50; i++) {
         auto tilePosition = getRandomTilePosition();
         _tileVector.emplace_back(tilePosition.second, 30, tilePosition.first, _highestTilePositionY, TextureManager::getTexture("tile").get());
@@ -139,12 +134,12 @@ void Game::manageTiles() {
 
 void Game::drawEntities() {
     _window->draw(_backgroundSprite);
-    _leftWall->draw(*_window);
-    _rightWall->draw(*_window);
 
     for (const auto &tile: _tileVector) {
         tile.draw(*_window);
     }
+    _leftWall->draw(*_window);
+    _rightWall->draw(*_window);
 
     _player->draw(*_window);
     _window->draw(_scoreText);
