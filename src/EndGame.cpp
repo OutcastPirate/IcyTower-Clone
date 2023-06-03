@@ -163,6 +163,11 @@ void EndGame::updateScoreVector(std::string fileName) {
         }
     }
     for (int i = 0; i < 5; i++) {
+        if (i > 0) {
+            if (scoreVector[i] == scoreVector[i - 1]) {
+                scoreVector[i] = 0;
+            }
+        }
         fileSaver << scoreVector[i] << std::endl;
     }
     fileSaver.close();
