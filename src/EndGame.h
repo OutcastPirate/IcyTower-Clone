@@ -9,6 +9,7 @@
 #include <vector>
 #include <string>
 #include "TextureManager.h"
+#include "FilePaths.h"
 #include "UIButton.h"
 #include "MainMenu.h"
 
@@ -25,10 +26,15 @@ public:
 private:
     void setupTextures();
     void handleInput();
-
+    std::vector<int> getScoreVector(std::string fileName);
+    void updateScoreVector(std::string fileName);
+    void setupHighScoreText();
     unsigned int selectedItem{ 0 };
     sf::Sprite background;
+    sf::Sprite leftLogo;
+    sf::Sprite rightLogo;
     std::vector<UIButton> buttonVector;
+    std::vector<sf::Text> scoreTextVector;
     std::shared_ptr<sf::RenderWindow> window;
     sf::Text scoreText;
     sf::Text highScoreText;

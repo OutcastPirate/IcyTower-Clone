@@ -93,13 +93,13 @@ void MainMenu::setupTextures() {
     gameLogo = sf::Sprite(*TextureManager::getTexture("menu_logo"));
     gameLogo.setTextureRect({0,0, 500, 500});
     gameLogo.setScale({0.8, 0.8});
-    gameLogo.setPosition(300, 0);
+    gameLogo.setPosition(300, 100);
 
 
     buttonVector.emplace_back(*TextureManager::getTexture("menu_button_play"), *TextureManager::getTexture("menu_button_play_selected"), 1);
-    buttonVector[0].setPosition(300, 400);
+    buttonVector[0].setPosition(300, 500);
     buttonVector.emplace_back(*TextureManager::getTexture("menu_button_close"), *TextureManager::getTexture("menu_button_close_selected"), -1);
-    buttonVector[1].setPosition(300, 500);
+    buttonVector[1].setPosition(300, 600);
     buttonVector[0].changeState();
 }
 

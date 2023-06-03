@@ -1,6 +1,10 @@
 #include "EndGame.h"
 #include "Game.h"
 #include<iostream>
+#include<fstream>
+#include<string>
+#include<sstream>
+
 
 EndGame::EndGame(std::shared_ptr<sf::RenderWindow> window, int score, int highScore) {
     this->window = window;
@@ -15,8 +19,14 @@ void EndGame::update() {
     window->draw(background);
     window->draw(scoreText);
     window->draw(highScoreText);
+    window->draw(leftLogo);
+    window->draw(rightLogo);
+
     for (auto& item : buttonVector) {
         item.draw(*window);
+    }
+    for (auto& item : scoreTextVector) {
+        window->draw(item);
     }
 
     
@@ -89,27 +99,25 @@ void EndGame::setupTextures() {
 
     background = sf::Sprite(*TextureManager::getTexture("menu_background"));
     background.setTextureRect({ 0,0, gameWidth, gameHeight });
-    if (!font.loadFromFile(fontPath))
-        std::cout << "Cannot load font" << std::endl;
-    scoreText.setFont(font); // font is a sf::Font
-    scoreText.setString("Score: " + std::to_string(_score));
-    scoreText.setCharacterSize(70); // in pixels, not points!
-    scoreText.setFillColor(sf::Color::White);
-    scoreText.setPosition(300, 250);
-    scoreText.setStyle(sf::Text::Bold);
-    highScoreText.setFont(font); // font is a sf::Font
-    highScoreText.setString("Highscore: " + std::to_string(_highScore));
-    highScoreText.setCharacterSize(70); // in pixels, not points!
-    highScoreText.setFillColor(sf::Color::White);
-    highScoreText.setPosition(300, 150);
-    highScoreText.setStyle(sf::Text::Bold);
+    
+    leftLogo = sf::Sprite(*TextureManager::getTexture("menu_logo"));
+    leftLogo.setTextureRect({ 0,0, 500, 500 });
+    leftLogo.setScale({ 0.5, 0.5 });
+    leftLogo.setPosition(15, 170);
 
+    rightLogo = sf::Sprite(*TextureManager::getTexture("menu_logo"));
+    rightLogo.setTextureRect({ 0,0, 500, 500 });
+    rightLogo.setScale({ 0.5, 0.5 });
+    rightLogo.setPosition(750, 170);
 
     buttonVector.emplace_back(*TextureManager::getTexture("menu_button_play"), *TextureManager::getTexture("menu_button_play_selected"), 1);
-    buttonVector[0].setPosition(300, 400);
+    buttonVector[0].setPosition(300, 350);
     buttonVector.emplace_back(*TextureManager::getTexture("menu_button_close"), *TextureManager::getTexture("menu_button_close_selected"), -1);
-    buttonVector[1].setPosition(300, 500);
+    buttonVector[1].setPosition(300, 450);
     buttonVector[0].changeState();
+
+    updateScoreVector(scoreTablePath);
+    setupHighScoreText();
 }
 
 int EndGame::getSelectedOption() {
@@ -121,4 +129,77 @@ int EndGame::getSelectedOption() {
         }
     }
     return option;
+}
+
+
+std::vector<int> EndGame::getScoreVector(std::string fileName) {
+    std::vector<int> scoreVector = {};
+    std::ifstream fileReader;
+    int score = 0;
+    fileReader.open(fileName);
+    for (int i = 0; i < 5; i++) {
+        fileReader >> score;
+        scoreVector.push_back(score);
+    }
+    fileReader.close();
+    return scoreVector;
+}
+
+
+void EndGame::updateScoreVector(std::string fileName) {
+    std::vector<int> scoreVector = getScoreVector(fileName);
+    std::ofstream fileSaver;
+    fileSaver.open(fileName);
+    int tempScore = 0;
+    int tempHigh = _score;
+    for (int i = 0; i < 5; i++) {
+        if (tempHigh == scoreVector[i]) {
+            break;
+        }
+        if (tempHigh > scoreVector[i]) {
+            tempScore = scoreVector[i];
+            scoreVector[i] = tempHigh;
+            tempHigh = tempScore;
+        }
+    }
+    for (int i = 0; i < 5; i++) {
+        fileSaver << scoreVector[i] << std::endl;
+    }
+    fileSaver.close();
+}
+
+void EndGame::setupHighScoreText() {
+    if (!font.loadFromFile(fontPath))
+        std::cout << "Cannot load font" << std::endl;
+    scoreText.setFont(font); // font is a sf::Font
+    scoreText.setString("SCORE: " + std::to_string(_score));
+    scoreText.setCharacterSize(70); // in pixels, not points!
+    scoreText.setFillColor(sf::Color::White);
+    scoreText.setPosition(370, 150);
+    scoreText.setStyle(sf::Text::Bold);
+    highScoreText.setFont(font); // font is a sf::Font
+    highScoreText.setString("HIGHSCORE: " + std::to_string(_highScore));
+    highScoreText.setCharacterSize(70); // in pixels, not points!
+    highScoreText.setFillColor(sf::Color::White);
+    highScoreText.setPosition(300, 50);
+    highScoreText.setStyle(sf::Text::Bold);
+    std::vector<int> scoreVector = getScoreVector(scoreTablePath);
+    sf::Text TitleScore;
+    TitleScore.setFont(font); // font is a sf::Font
+    TitleScore.setString("HIGHSCORE TABLE:");
+    TitleScore.setCharacterSize(70);
+    TitleScore.setFillColor(sf::Color::White);
+    TitleScore.setPosition(270, 570 );
+    TitleScore.setStyle(sf::Text::Bold);
+    scoreTextVector.emplace_back(TitleScore);
+    for (int i = 0; i < 5; i++) {
+        sf::Text tempScore;
+        tempScore.setFont(font); // font is a sf::Font
+        tempScore.setString(std::to_string(i+1) + ". " + std::to_string(scoreVector[i]));
+        tempScore.setCharacterSize(50);
+        tempScore.setFillColor(sf::Color::White);
+        tempScore.setPosition(440, 650 + (i*40));
+        tempScore.setStyle(sf::Text::Bold);
+        scoreTextVector.emplace_back(tempScore);
+    }
 }
