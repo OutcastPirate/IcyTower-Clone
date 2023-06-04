@@ -1,7 +1,3 @@
-//
-// Created by pawel on 22.04.23.
-//
-
 #ifndef ICYTOWER_TEXTUREMANAGER_H
 #define ICYTOWER_TEXTUREMANAGER_H
 #include <SFML/Graphics.hpp>

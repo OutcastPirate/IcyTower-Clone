@@ -1,7 +1,3 @@
-//
-// Created by pawel on 22.04.23.
-//
-
 #include "TextureManager.h"
 
 std::map<std::string, std::shared_ptr<sf::Texture>> TextureManager::texturesMap;
