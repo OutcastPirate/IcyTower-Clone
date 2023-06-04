@@ -17,6 +17,10 @@
 
 
 class Player {
+    /**
+     * Player class is used to keep main gameplay character position and texture. Also allows for managing it's physical
+     * properties and location.
+     */
 public:
     Player(sf::Texture *leftTexture, sf::Texture *rightTexture);
     /**
@@ -32,6 +36,10 @@ public:
      */
 
     void setPosition(float x, float y);
+    /**
+     * Method that sets player position.
+     * @param x, y - new relative (window) position
+     */
 
     void draw(sf::RenderWindow &window);
 
@@ -50,8 +58,24 @@ public:
 
 private:
     static sf::Vector3f getManifold(const sf::FloatRect& overlap, const sf::Vector2f& collisionNormal) ;
+    /**
+     * Method used to calculate manifold of 2 colliding objects. Manifold is then used for separating colliding objects,
+     * if they are overlaped.
+     * @param sf::FloatRect overlap used
+     * @param sf::Vector2f collisionNormal
+     * @return sf::Vector3f manifold - calculated manifold.
+     */
     void resolve(const sf::Vector3f& manifold);
+    /**
+     * Resolves calculated manifold by moving player character out of colliding object.
+     */
+
     float dot(const sf::Vector2f& lv, const sf::Vector2f& rv);
+    /**
+     * Dot product of 2 vectors. MAKO2 - v1 = (a,b) v2 = (c,d)
+     * v1 dot v2 = a*c+b*d
+     * @return Dot product of 2 passed vectors.
+     */
     void horizontalAcceleration(bool accelerateRight);
     sf::Vector2f reflect(const sf::Vector2f& velocity, const sf::Vector2f& normal);
     sf::RectangleShape _body;

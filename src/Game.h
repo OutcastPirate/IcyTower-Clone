@@ -15,12 +15,25 @@
 
 
 class Game {
+    /**
+     * Main Game class, keeps information about current game. Manages refreshing the screen, displaying
+     * menus and keeping track of points.
+     */
 public:
     explicit Game(std::shared_ptr<sf::RenderWindow> window);
+    /**
+     * Game class explicit constructor.
+     * @arg sf::RenderWindow pointer - passed pointer is used inside of the class as main window for displaying and
+     * drawing the game.
+     */
 
     bool isWindowOpen() const;
 
     void update();
+    /**
+     * Update method is used in a loop - calling this method redraws all objects and calculates their new position -
+     * physics.
+     */
 
     bool isPlayerOutOfScreen();
 
@@ -30,12 +43,29 @@ private:
     static void setupTextures();
 
     void generateTiles();
+    /**
+     * Method that fills empty tileVector with freshly generated tile objects in a random position.
+     */
     inline std::pair<int, int> getRandomTilePosition();
+    /**
+     * Helper method used for generating random tiles. Returns a pair of ints that are used for setting width
+     * and x position of tiles.
+     */
     void manageTiles();
+    /**
+     * This method checks player position and depending on y position moves not visible tiles from bottom to top,
+     * changing theirs width and x position, so they seem pseudo-random.
+     */
 
     void drawEntities();
+    /**
+     * Draws every defined texture on the screen.
+     */
 
     void setScreen();
+    /**
+     * Sets camera object to center of character, moves camera with constant velocity.
+     */
 
 
     float _deltaTime{0};
