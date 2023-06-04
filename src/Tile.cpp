@@ -1,7 +1,3 @@
-//
-// Created by pawel on 12.04.23.
-//
-
 #include "Tile.h"
 
 Tile::Tile(float width, float height, float x, float y, sf::Texture *texture) {
