@@ -1,7 +1,3 @@
-//
-// Created by pawel on 23.04.23.
-//
-
 #ifndef ICYTOWER_GAME_H
 #define ICYTOWER_GAME_H
 #define HIGHSCORE 0

@@ -4,6 +4,10 @@
 #include <memory>
 
 class UIButton {
+    /**
+     * UIButton class is used to create buttons in menus
+     *
+     */
 public:
     UIButton(sf::Texture& inactiveTexture, sf::Texture& activeTexture, int button_code);
     /**

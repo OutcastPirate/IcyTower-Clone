@@ -10,6 +10,9 @@
 
 
 class MainMenu {
+    /**
+    *   MainMenu class is used to generate and display the welcome screen and starting menu
+    */
 public:
     MainMenu(std::shared_ptr<sf::RenderWindow> window);
     /**
@@ -70,6 +73,9 @@ private:
      *
     */
     bool selected{false};
+    /**
+    *   selected Bool used to determine wether an option has been chosen
+    */
     sf::Font font;
     /**
      *  font Font used in Text objects

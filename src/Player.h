@@ -1,7 +1,3 @@
-//
-// Created by pawel on 20.03.23.
-//
-
 #ifndef ICYTOWER_PLAYER_H
 #define ICYTOWER_PLAYER_H
 
