@@ -1,7 +1,3 @@
-//
-// Created by pawel on 01.05.23.
-//
-
 #include "UIButton.h"
 
 UIButton::UIButton(sf::Texture &inactiveTexture, sf::Texture &activeTexture, int button_code) {
