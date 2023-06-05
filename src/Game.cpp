@@ -45,8 +45,8 @@ Game::Game(std::shared_ptr<sf::RenderWindow> window) {
 
     // Background setup
     _backgroundSprite.setTexture(*TextureManager::getTexture("background"));
-    _backgroundSprite.setTextureRect({0, 0, gameWidth, gameHeight * 30});
-    _backgroundSprite.setPosition({0, -gameHeight * 27});
+    _backgroundSprite.setTextureRect({0, 0, gameWidth, gameHeight * 300});
+    _backgroundSprite.setPosition({0, -gameHeight * 297});
 
     // Setup score counter.
     _counterSprite.setTexture(*TextureManager::getTexture("counter"));
