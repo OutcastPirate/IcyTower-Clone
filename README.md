@@ -52,3 +52,7 @@ If the player gets through the first few levels the tower will "start collapsing
 Upon the player's fall to his inevitable demise, an EndGame screen is displayed, featuring his current score, the best score he got in the current playing session and five of the top scores of all time.
 
 From here, the player can choose either to try the game again, or leave it and close the program.
+
+| Main Game | Exit Menu |
+|:---------:|:---------:|
+| ![](resources/screen1.png) | ![](resources/screen2.png) |
