@@ -6,7 +6,7 @@ Authors:
 
 ## Project: Icy Tower Clone
 
-The aim of the project was to create a game similar to the popular ("Icy Tower")[https://en.wikipedia.org/wiki/Icy_Tower], a well known platform game.
+The aim of the project was to create a game similar to the popular ["Icy Tower"](https://en.wikipedia.org/wiki/Icy_Tower), a well known platform game.
 
 The game's purpose is for the player to reach the highest level he can manage while jumping from platform to platform and bouncing off walls.
 
