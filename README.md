@@ -7,6 +7,13 @@ Authors:
 - Paweł Skorupski
 - Jakub Kryczka
 
+## Interesting features
+- smart collision implementation
+- TextureManager Class to improve texture handling
+- scoreboard and highscore keeping
+- creating a limited amount of platforms and destroying unused ones
+- wallJumping implementation
+
 ## Project: Icy Tower Clone
 
 The aim of the project was to create a game similar to the popular ["Icy Tower"](https://en.wikipedia.org/wiki/Icy_Tower), a well known platform game.
